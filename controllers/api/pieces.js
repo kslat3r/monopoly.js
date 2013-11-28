@@ -1,4 +1,5 @@
 var PiecesProvider = require('../../providers/pieces.js').PiecesProvider;
+PiecesProvider = new PiecesProvider();
 
 exports.list = function(req, res) {
   res.send(PiecesProvider.list());
