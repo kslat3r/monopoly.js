@@ -1,5 +1,10 @@
+var Provider = require('../../providers/properties.js').Provider;
+Provider = new Provider();
+
 exports.list = function(req, res) {
-  res.send("Properties list");
+  var docs = Provider.list(function(docs) {
+		res.send(docs);
+	});
 };
 
 exports.get = function(req, res) {
