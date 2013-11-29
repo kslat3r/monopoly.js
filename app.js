@@ -10,7 +10,7 @@ var dice 		= require('./controllers/api/dice.js');
 var games 		= require('./controllers/api/games.js');
 var pieces 		= require('./controllers/api/pieces.js');
 var players		= require('./controllers/api/players.js');
-var properties 	= require('./controllers/api/properties.js');
+var tiles	 	= require('./controllers/api/tiles.js');
 var app 		= express();
 
 //config
@@ -72,11 +72,11 @@ app.post('/api/players', players.create);
 app.delete('/api/players/:id', players.delete);
 app.put('/api/players/:id', players.update);
 
-app.get('/api/properties', properties.list);
-app.get('/api/properties/:id', properties.get);
-app.post('/api/properties', properties.create);
-app.delete('/api/properties/:id', properties.delete);
-app.put('/api/properties/:id', properties.update);
+app.get('/api/tiles', tiles.list);
+app.get('/api/tiles/:id', tiles.get);
+app.post('/api/tiles', tiles.create);
+app.delete('/api/tiles/:id', tiles.delete);
+app.put('/api/tiles/:id', tiles.update);
 
 //create server
 
