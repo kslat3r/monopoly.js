@@ -1,7 +1,7 @@
 var Provider = require('./provider.js').Provider;
 
 exports.Provider = function() {
-	this.collectionName = 'tiles';
+	this.collectionName = 'properties';
 	this.provider 		= new Provider();;
 };
 
