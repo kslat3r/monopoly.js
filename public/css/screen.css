@@ -464,16 +464,18 @@ body ul li {
 /* line 1, ../scss/_modules/_board.scss */
 div.board {
   position: relative;
-  height: 698px;
-  width: 682px;
+  height: 812px;
+  width: 792px;
   margin: 20px auto;
+  background-color: #dcedda;
+  box-shadow: 3px 3px 10px #888;
 }
-/* line 7, ../scss/_modules/_board.scss */
+/* line 9, ../scss/_modules/_board.scss */
 div.board ul {
   list-style-type: none;
   display: block;
 }
-/* line 11, ../scss/_modules/_board.scss */
+/* line 13, ../scss/_modules/_board.scss */
 div.board ul li {
   display: block;
   float: left;
@@ -481,12 +483,13 @@ div.board ul li {
   font-size: 65%;
   text-align: center;
   word-wrap: break-word;
-  width: 60px;
-  max-width: 60px;
-  max_height: 68px;
-  height: 68px;
+  width: 70px;
+  max-width: 70px;
+  max_height: 80px;
+  height: 80px;
+  position: relative;
 }
-/* line 23, ../scss/_modules/_board.scss */
+/* line 26, ../scss/_modules/_board.scss */
 div.board ul li span.colour {
   width: 100%;
   height: 10px;
@@ -494,119 +497,177 @@ div.board ul li span.colour {
   border-bottom: 1px solid #000;
   margin-bottom: 5px;
 }
-/* line 37, ../scss/_modules/_board.scss */
+/* line 40, ../scss/_modules/_board.scss */
 div.board ul li span.colour.jail, div.board ul li span.colour.chance, div.board ul li span.colour.tax, div.board ul li span.colour.community_chest, div.board ul li span.colour.go, div.board ul li span.colour.free_parking, div.board ul li span.colour.go_to_jail, div.board ul li span.colour.black {
   display: none;
 }
-/* line 41, ../scss/_modules/_board.scss */
+/* line 44, ../scss/_modules/_board.scss */
 div.board ul li span.colour.sky_blue {
   background-color: skyblue;
 }
-/* line 45, ../scss/_modules/_board.scss */
+/* line 48, ../scss/_modules/_board.scss */
 div.board ul li span.colour.brown {
   background-color: saddlebrown;
 }
-/* line 49, ../scss/_modules/_board.scss */
+/* line 52, ../scss/_modules/_board.scss */
 div.board ul li span.colour.orange {
   background-color: orange;
 }
-/* line 53, ../scss/_modules/_board.scss */
+/* line 56, ../scss/_modules/_board.scss */
 div.board ul li span.colour.pink {
   background-color: darkorchid;
 }
-/* line 57, ../scss/_modules/_board.scss */
+/* line 60, ../scss/_modules/_board.scss */
 div.board ul li span.colour.red {
   background-color: red;
 }
-/* line 61, ../scss/_modules/_board.scss */
+/* line 64, ../scss/_modules/_board.scss */
 div.board ul li span.colour.yellow {
   background-color: yellow;
 }
-/* line 65, ../scss/_modules/_board.scss */
+/* line 68, ../scss/_modules/_board.scss */
 div.board ul li span.colour.green {
   background-color: green;
 }
-/* line 69, ../scss/_modules/_board.scss */
+/* line 72, ../scss/_modules/_board.scss */
 div.board ul li span.colour.indigo {
   background-color: blue;
 }
-/* line 73, ../scss/_modules/_board.scss */
+/* line 76, ../scss/_modules/_board.scss */
 div.board ul li span.colour.black {
   background-color: black;
 }
-/* line 78, ../scss/_modules/_board.scss */
+/* line 83, ../scss/_modules/_board.scss */
+div.board ul li span.property-holder span.house,
+div.board ul li span.property-holder span.hotel {
+  height: 10px;
+  width: 19%;
+  background-color: green;
+  display: block;
+  float: left;
+  margin-right: 3%;
+  margin-left: 3%;
+  box-shadow: 3px 3px 5px #000000;
+}
+/* line 94, ../scss/_modules/_board.scss */
+div.board ul li span.property-holder span.hotel {
+  background-color: red;
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
+  width: 25%;
+}
+/* line 103, ../scss/_modules/_board.scss */
 div.board ul li span.price {
   display: block;
   clear: both;
-  margin-top: 5px;
+  bottom: 8px;
+  width: 100%;
+  position: absolute;
 }
-/* line 86, ../scss/_modules/_board.scss */
+/* line 113, ../scss/_modules/_board.scss */
 div.board ul li.property span.colour.black {
   display: block;
 }
-/* line 94, ../scss/_modules/_board.scss */
+/* line 121, ../scss/_modules/_board.scss */
 div.board ul li.chance div.content, div.board ul li.community_chest div.content {
-  margin-top: 20px;
+  margin-top: 30px;
 }
-/* line 100, ../scss/_modules/_board.scss */
+/* line 127, ../scss/_modules/_board.scss */
 div.board ul li.tax div.content {
   margin-top: 10px;
 }
-/* line 107, ../scss/_modules/_board.scss */
+/* line 132, ../scss/_modules/_board.scss */
+div.board ul li div.content {
+  width: 94%;
+  padding-left: 3%;
+  padding-right: 3%;
+}
+/* line 140, ../scss/_modules/_board.scss */
 div.board ul.bottom, div.board ul.top {
   position: absolute;
   bottom: 0;
 }
-/* line 112, ../scss/_modules/_board.scss */
+/* line 145, ../scss/_modules/_board.scss */
 div.board ul.top {
   bottom: auto;
   top: 0;
 }
-/* line 116, ../scss/_modules/_board.scss */
+/* line 149, ../scss/_modules/_board.scss */
 div.board ul.top li {
   transform: rotate(180deg);
 }
-/* line 120, ../scss/_modules/_board.scss */
+/* line 153, ../scss/_modules/_board.scss */
 div.board ul.top li.top_left div.content {
   transform: rotate(305deg);
-  margin-top: 25px;
+  margin-top: 30px;
 }
-/* line 127, ../scss/_modules/_board.scss */
+/* line 160, ../scss/_modules/_board.scss */
 div.board ul.top li.top_right div.content {
   transform: rotate(45deg);
-  margin-top: 25px;
+  margin-top: 30px;
 }
-/* line 138, ../scss/_modules/_board.scss */
+/* line 171, ../scss/_modules/_board.scss */
 div.board ul.bottom li.bottom_left div.content {
   transform: rotate(45deg);
-  margin-top: 20px;
-}
-/* line 145, ../scss/_modules/_board.scss */
-div.board ul.bottom li.bottom_right div.content {
-  transform: rotate(-45deg);
   margin-top: 25px;
 }
-/* line 154, ../scss/_modules/_board.scss */
+/* line 178, ../scss/_modules/_board.scss */
+div.board ul.bottom li.bottom_right div.content {
+  transform: rotate(-45deg);
+  margin-top: 30px;
+}
+/* line 187, ../scss/_modules/_board.scss */
 div.board ul.left, div.board ul.right {
   position: absolute;
   left: 0;
-  margin-top: 70px;
+  margin-top: 82px;
 }
-/* line 159, ../scss/_modules/_board.scss */
+/* line 192, ../scss/_modules/_board.scss */
 div.board ul.left li, div.board ul.right li {
   float: none;
-  width: 60px;
-  height: 68px;
+  width: 70px;
+  height: 80px;
   transform: rotate(90deg);
-  height: 60px;
-  width: 68px;
+  height: 70px;
+  width: 80px;
 }
-/* line 169, ../scss/_modules/_board.scss */
+/* line 202, ../scss/_modules/_board.scss */
 div.board ul.right {
   left: auto;
   right: 0;
 }
-/* line 173, ../scss/_modules/_board.scss */
+/* line 206, ../scss/_modules/_board.scss */
 div.board ul.right li {
   transform: rotate(270deg);
+}
+/* line 213, ../scss/_modules/_board.scss */
+div.board div.community_chest,
+div.board div.chance {
+  width: 200px;
+  height: 100px;
+  border: 1px dotted #000;
+  position: absolute;
+  text-align: center;
+  box-shadow: 3px 3px 10px #888;
+}
+/* line 221, ../scss/_modules/_board.scss */
+div.board div.community_chest h1,
+div.board div.chance h1 {
+  margin-top: -20px;
+  font-size: 70%;
+}
+/* line 227, ../scss/_modules/_board.scss */
+div.board div.chance {
+  transform: rotate(-45deg);
+  right: 100px;
+  bottom: 160px;
+  background-color: #fd9b78;
+}
+/* line 234, ../scss/_modules/_board.scss */
+div.board div.community_chest {
+  transform: rotate(-225deg);
+  top: 160px;
+  left: 100px;
+  background-color: #fef19a;
 }

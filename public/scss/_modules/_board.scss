@@ -3,6 +3,8 @@ div.board {
 	height: (9 * $tile_width) + (2 * $tile_height) + (11 * 2); //border
 	width: (11 * $tile_width) + (11 * 2); //border
 	margin: 20px auto;
+	background-color: $board_colour;
+	box-shadow: 3px 3px 10px #888;
 
 	ul {
 		list-style-type: none;
@@ -19,6 +21,7 @@ div.board {
 			max-width: $tile_width;
 			max_height: $tile_height;
 			height: $tile_height;
+			position: relative;
 
 			span.colour {
 				width: 100%;
@@ -72,13 +75,37 @@ div.board {
 
 				&.black {
 					background-color: $black_colour;
+				}				
+			}
+
+			span.property-holder {
+				span.house,
+				span.hotel {
+					height: 10px;
+					width: 19%;
+					background-color: $house_colour;;
+					display: block;
+					float: left;
+					margin-right: 3%;
+					margin-left: 3%;
+					box-shadow: 3px 3px 5px #000000;
+				}
+
+				span.hotel {
+					background-color: $hotel_colour;
+					float: none;
+					margin-left: auto;
+					margin-right: auto;
+					width: 25%;
 				}
 			}
 
 			span.price {
 				display: block;
 				clear: both;
-				margin-top: 5px;
+				bottom: 8px;
+				width: 100%;
+				position: absolute;
 			}
 
 			&.property {
@@ -92,7 +119,7 @@ div.board {
 			&.chance,
 			&.community_chest {
 				div.content {
-					margin-top: 20px;
+					margin-top: 30px;
 				}
 			}
 
@@ -100,6 +127,12 @@ div.board {
 				div.content {
 					margin-top: 10px;
 				}
+			}
+
+			div.content {
+				width: 94%;
+				padding-left: 3%;
+				padding-right: 3%;
 			}
 		}	
 
@@ -119,14 +152,14 @@ div.board {
 				&.top_left {
 					div.content {
 						transform: rotate(305deg);
-						margin-top: 25px;
+						margin-top: 30px;
 					}
 				}
 
 				&.top_right {
 					div.content {
 						transform: rotate(45deg);
-						margin-top: 25px;
+						margin-top: 30px;
 					}
 				}
 			}
@@ -137,14 +170,14 @@ div.board {
 				&.bottom_left {
 					div.content {
 						transform: rotate(45deg);
-						margin-top: 20px;
+						margin-top: 25px;
 					}
 				}
 
 				&.bottom_right {
 					div.content {
 						transform: rotate(-45deg);
-						margin-top: 25px;
+						margin-top: 30px;
 					}
 				}
 			}
@@ -174,5 +207,34 @@ div.board {
 				transform: rotate(270deg);
 			}
 		}			
+	}
+
+	div.community_chest,
+	div.chance {
+		width: 200px;
+		height: 100px;
+		border: 1px dotted #000;
+		position: absolute;
+		text-align: center;	
+		box-shadow: 3px 3px 10px #888;	
+
+		h1 {
+			margin-top: -20px;
+			font-size: 70%;
+		}
+	}
+
+	div.chance {
+		transform: rotate(-45deg);
+		right: 100px;
+		bottom: 160px;
+		background-color: $chance_background_colour;
+	}
+
+	div.community_chest {
+		transform: rotate(-225deg);
+		top: 160px;
+		left: 100px;
+		background-color: $community_chest_background_colour;
 	}
 }

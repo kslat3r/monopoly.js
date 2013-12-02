@@ -2,10 +2,14 @@ extends layout
 
 block board
 	div.board
+		div.chance
+			h1 Chance
+		div.community_chest
+			h1 Community Chest
 		ul.bottom
 			each tile, key in bottomTiles
 				li(class="#{key == 0 ? 'bottom_left ' + tile.type : key == (bottomTiles.length - 1) ? 'bottom_right ' + tile.type : tile.type}", id="#{tile.machine_name}")
-					span.colour(class="#{tile.colour != null ? tile.colour : tile.type}")
+					span.colour(class="#{tile.colour != null ? tile.colour : tile.type} property-holder")
 					div.content						
 						span.title #{tile.name}
 						if tile.price != 0
@@ -13,7 +17,7 @@ block board
 		ul.left
 			each tile, key in leftTiles
 				li(class="#{tile.type}", id="#{tile.machine_name}", id="#{tile.machine_name}")
-					span.colour(class="#{tile.colour != null ? tile.colour : tile.type}", id="#{tile.machine_name}")
+					span.colour(class="#{tile.colour != null ? tile.colour : tile.type}", id="#{tile.machine_name} property-holder")						
 					div.content						
 						span.title #{tile.name}
 						if tile.price != 0
@@ -21,7 +25,7 @@ block board
 		ul.top
 			each tile, key in topTiles
 				li(class="#{key == 0 ? 'top_left ' + tile.type : key == (topTiles.length - 1) ? 'top_right ' + tile.type : tile.type}", id="#{tile.machine_name}")
-					span.colour(class="#{tile.colour != null ? tile.colour : tile.type}")
+					span.colour(class="#{tile.colour != null ? tile.colour : tile.type} property-holder")
 					div.content						
 						span.title #{tile.name}
 						if tile.price != 0
@@ -29,7 +33,7 @@ block board
 		ul.right
 			each tile, key in rightTiles
 				li(class="#{tile.type}", id="#{tile.machine_name}")
-					span.colour(class="#{tile.colour != null ? tile.colour : tile.type}")
+					span.colour(class="#{tile.colour != null ? tile.colour : tile.type} property-holder")
 					div.content
 						span.title #{tile.name}
 						if tile.price != 0
