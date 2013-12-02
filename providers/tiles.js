@@ -7,6 +7,6 @@ exports.Provider = function() {
 
 exports.Provider.prototype = {
 	list: function(callback) {
-		this.provider.list(this.collectionName, callback);		
+		this.provider.list(this.collectionName, {}, {'position': 1}, callback);
 	}
 };

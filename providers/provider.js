@@ -26,7 +26,7 @@ exports.Provider.prototype = {
 		}
 	},
 
-	list: function(collectionName, callback) {
+	list: function(collectionName, params, sort, callback) {
 		(function(that) {
 			that.connect(function() {
 				that.db.collection(collectionName, function(error, collection) {
@@ -34,7 +34,7 @@ exports.Provider.prototype = {
 			    		console.log(error);
 			    	}
 			    	else {
-			    		collection.find().toArray(function(error, docs) {
+			    		collection.find(params).sort(sort).toArray(function(error, docs) {
 			    			if (error) {
 			    				console.log(error);
 			    			}

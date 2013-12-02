@@ -1,4 +1,4 @@
-body {
-	background-color: #fff;
-	color: #333;	
-}
+@import 'variables';
+@import 'normalize';
+@import 'elements';
+@import '_modules/board';
