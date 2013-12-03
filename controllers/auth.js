@@ -1,10 +1,14 @@
 var config 				= require('../config.js');
 var passport 			= require('passport');
 var FacebookStrategy 	= require('passport-facebook').Strategy;
+var TwitterStrategy		= require('passport-twitter').Strategy;
 var UsersProvider 		= require('../providers/user.js').Provider;
 UsersProvider 			= new UsersProvider();
 
 (function() {
+
+	//facebook
+
 	passport.use(
 		new FacebookStrategy({
 			clientID: config.facebook.app_id, 
@@ -12,19 +16,37 @@ UsersProvider 			= new UsersProvider();
 			callbackURL: config.facebook.callback_url
 		}, 
 		function(accessToken, refreshToken, profile, done) {
-	  		UsersProvider.upsert({id: profile.id}, profile, function(user) {
-	  			done(null, user);
+	  		UsersProvider.upsert({id: profile.id}, profile, function(err, user) {
+	  			done(err, user);
 	  		});
 		}
 	));
+
+	//twitter
+
+	passport.use(
+		new TwitterStrategy({
+			consumerKey: config.twitter.consumerKey,
+			consumerSecret: config.twitter.consumerSecret,
+			callbackURL: config.twitter.callbackURL
+		},
+		function(token, tokenSecret, profile, done) {
+			console.log(profile);
+			UsersProvider.upsert({id: profile.id}, profile, function(err, user) {
+	  			done(err, user);
+	  		});
+		}
+	));
+
+	//session handlers
 
 	passport.serializeUser(function(user, done) {
 		done(null, user._id.toString());
 	});
 
 	passport.deserializeUser(function(id, done) {
-		UsersProvider.findById(id, function(user) {
-			done(null, user);
+		UsersProvider.findById(id, function(err, user) {
+			done(err, user);
 		});
 	});
 })();

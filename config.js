@@ -8,5 +8,12 @@ var facebook = {
 	callback_url: process.env.NODE_ENV == 'production' ? 'http://www.monopolyjs.com/auth/facebook/callback' : 'http://monopolyjs.nll:3000/auth/facebook/callback'
 };
 
-module.exports.db = db;
+var twitter = {
+	consumerKey: process.env.NODE_ENV == 'production' ? 'UWVGydtdP31urWJDP0ej1g' : '9r0gFcxsQw7OakfeKXlCxA',
+	consumerSecret: process.env.NODE_ENV == 'production' ? 'X3ZpLULSLR4AEjiuNdX1jlYqa4KYkVK9sK8TVPpSQ0' : 'WQU3gUaZo5neHgmP2Fgdn152yqg2rCZiqvkg1827I',
+	callbackURL: process.env.NODE_ENV == 'production' ? 'http://www.monopolyjs.com/auth/twitter/callback' : 'http://monopolyjs.nll:3000/auth/twitter/callback'
+};
+
+module.exports.db 		= db;
 module.exports.facebook = facebook;
+module.exports.twitter 	= twitter;

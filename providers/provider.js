@@ -13,48 +13,54 @@ exports.Provider.prototype = {
 			(function(that) {
 				Db.connect(Config.db.uri, function(err, db) {
 					if (err) {
-						
+						console.log(err);
 					}
 					else {
 						that.db = db;
-						callback();
+						callback(err, db);
 					}
 				});
 			})(this);
 		}
 		else {
-			callback();
+			callback(null, this.db);
 		}
 	},
 
 	list: function(collectionName, params, sort, callback) {
-		(function(that) {
-			that.connect(function() {
-				that.db.collection(collectionName, function(error, collection) {
-			    	if (error) {
-			    		
+		this.connect(function(err, db) {
+			if (err) {
+				console.log(err);
+			}
+			else {
+				db.collection(collectionName, function(err, collection) {
+			    	if (err) {
+			    		console.log(err);
 			    	}
 			    	else {
-			    		collection.find(params).sort(sort).toArray(function(error, docs) {
-			    			if (error) {
-			    				
+			    		collection.find(params).sort(sort).toArray(function(err, docs) {
+			    			if (err) {
+			    				console.log(err);
 			    			}
 			    			else {
-			    				callback(docs);
+			    				callback(err, docs);
 			    			}
 			  			});
 			    	}
-			  	});	
-			});
-		})(this);
+			  	});
+			}
+		});
 	},
 
 	upsert: function(collectionName, where, data, callback) {
-		(function(that) {
-			that.connect(function() {
-				that.db.collection(collectionName, function(error, collection) {
-			    	if (error) {
-			    		console.log(error);
+		this.connect(function(err, db) {
+			if (err) {
+				console.log(err);
+			}
+			else {
+				db.collection(collectionName, function(err, collection) {
+			    	if (err) {
+			    		console.log(err);
 			    	}
 			    	else {
 			    		var opts = {
@@ -63,61 +69,67 @@ exports.Provider.prototype = {
 			    			safe: true
 			    		};
 
-			    		collection.findAndModify(where, [['_id','asc']], data, opts, function(error, doc) {
-			    			if (error) {
-			    				
+			    		collection.findAndModify(where, [['_id','asc']], data, opts, function(err, doc) {
+			    			if (err) {
+			    				console.log(err);
 			    			}
 			    			else {
-			    				callback(doc);
+			    				callback(err, doc);
 			    			}
 			    		});
 			    	}
 			    });
-			});
-		})(this);
+			}
+		});
 	},
 
 	findById: function(collectionName, id, callback) {
-		(function(that) {
-			that.connect(function() {
-				that.db.collection(collectionName, function(error, collection) {
-			    	if (error) {
-			    		
+		this.connect(function(err, db) {
+			if (err) {
+				console.log(err);
+			}
+			else {
+				db.collection(collectionName, function(err, collection) {
+			    	if (err) {
+			    		console.log(err);	
 			    	}
 			    	else {
-			    		collection.findOne({_id: new ObjectID(id)}, function(error, doc) {
-			    			if (error) {
-			    				
+			    		collection.findOne({_id: new ObjectID(id)}, function(err, doc) {
+			    			if (err) {
+			    				console.log(err);			    				
 			    			}
 			    			else {			    						    					
-		    					callback(doc);
+		    					callback(err, doc);
 				    		}
 			    		});
 			    	}
 			    });
-			});
-		})(this);
+			}
+		});
 	},
 
 	find: function(collectionName, data, callback) {
-		(function(that) {
-			that.connect(function() {
-				that.db.collection(collectionName, function(error, collection) {
-			    	if (error) {
-			    		
+		this.connect(function(err, db) {
+			if (err) {
+				console.log(err);
+			}
+			else {
+				db.collection(collectionName, function(err, collection) {
+			    	if (err) {
+			    		console.log(err);
 			    	}
 			    	else {
 			    		collection.find(data, function(err, docs) {
 			    			if (err) {
-			    				
+			    				console.log(err);
 			    			}
 			    			else {
-			    				callback(docs);
+			    				callback(err, docs);
 			    			}
 			    		});
 			    	}
 			    });
-			});
-		})(this);
+			}
+		});
 	}
 }

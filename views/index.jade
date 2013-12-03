@@ -38,9 +38,3 @@ block content
 						span.title #{tile.name}
 						if tile.price != 0
 							span.price £#{tile.price}
-	if user
-		div.logout
-			a(href="/auth/logout") Logout
-	else
-		div.login
-			a(href="/auth/facebook") Login with Facebook

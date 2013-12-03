@@ -38,7 +38,7 @@ app.configure(function() {
 
 //development only
 
-if ('development' == app.get('env')) {
+if ('development' == app.get('env') || app.get('env') == 'undefined') {
   app.use(express.errorHandler());
 }
 
@@ -88,6 +88,8 @@ app.post('/api/tiles', tiles.create);
 app.delete('/api/tiles/:id', tiles.delete);
 app.put('/api/tiles/:id', tiles.update);
 
+//auth
+
 app.get('/auth/facebook', auth.passport.authenticate('facebook', {
 	session: true
 }));
@@ -95,6 +97,15 @@ app.get('/auth/facebook/callback', auth.passport.authenticate('facebook', {
 	successRedirect: '/',
     failureRedirect: '/' 
 }));
+
+app.get('/auth/twitter', auth.passport.authenticate('twitter', {
+	session: true
+}));
+app.get('/auth/twitter/callback', auth.passport.authenticate('twitter', { 
+	successRedirect: '/',
+	failureRedirect: '/login'
+}));
+
 app.get('/auth/logout', auth.logout);
 
 //create server
