@@ -13,7 +13,8 @@ exports.index = function(req, res) {
 			bottomTiles: bottom,
 			leftTiles: left,
 			topTiles: top,
-			rightTiles: right
+			rightTiles: right,
+			user: req.user
 		});
 	});
 };

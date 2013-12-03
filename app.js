@@ -11,20 +11,30 @@ var games 		= require('./controllers/api/games.js');
 var pieces 		= require('./controllers/api/pieces.js');
 var players		= require('./controllers/api/players.js');
 var tiles	 	= require('./controllers/api/tiles.js');
+var auth		= require('./controllers/auth.js');
 var app 		= express();
 
 //config
 
-app.set('port', process.env.PORT || 3000);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-app.use(express.favicon());
-app.use(express.logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded());
-app.use(express.methodOverride());
-app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
+app.configure(function() {
+	app.set('port', process.env.PORT || 3000);
+	app.set('views', path.join(__dirname, 'views'));
+	app.set('view engine', 'jade');
+
+	app.use(express.favicon());
+	app.use(express.logger('dev'));
+	app.use(express.json());
+	app.use(express.urlencoded());
+	app.use(express.methodOverride());
+	app.use(express.static(path.join(__dirname, 'public')));
+	
+	app.use(express.cookieParser());
+	app.use(express.session({secret: 'm0n0p0lyj5'}));
+	app.use(auth.passport.initialize());
+	app.use(auth.passport.session());
+	
+	app.use(app.router);	
+});
 
 //development only
 
@@ -77,6 +87,15 @@ app.get('/api/tiles/:id', tiles.get);
 app.post('/api/tiles', tiles.create);
 app.delete('/api/tiles/:id', tiles.delete);
 app.put('/api/tiles/:id', tiles.update);
+
+app.get('/auth/facebook', auth.passport.authenticate('facebook', {
+	session: true
+}));
+app.get('/auth/facebook/callback', auth.passport.authenticate('facebook', { 
+	successRedirect: '/',
+    failureRedirect: '/' 
+}));
+app.get('/auth/logout', auth.logout);
 
 //create server
 
