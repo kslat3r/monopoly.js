@@ -1,10 +1,11 @@
 var TilesProvider = require('../providers/tiles.js').Provider;
 TilesProvider = new TilesProvider();
 
-exports.index = function(req, res) {
-  	var docs = TilesProvider.list(function(err, tiles) {
+exports.index = function(req, res, callback) {
+	var docs = TilesProvider.list(function(err, tiles) {  		
+  		err = new Error('blah');
   		if (err) {
-  			console.log(err);
+  			callback(err, null);
   		}
   		else {
 	  		var bottom 	= tiles.splice(0, 11).reverse();

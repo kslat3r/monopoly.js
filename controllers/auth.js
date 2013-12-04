@@ -5,6 +5,8 @@ var TwitterStrategy		= require('passport-twitter').Strategy;
 var UsersProvider 		= require('../providers/user.js').Provider;
 UsersProvider 			= new UsersProvider();
 
+//constructor
+
 (function() {
 
 	//facebook
@@ -51,9 +53,35 @@ UsersProvider 			= new UsersProvider();
 	});
 })();
 
-exports.logout = function(req, res) {
-  req.logout();
-  res.redirect('/');
-};
-
 exports.passport = passport;
+
+exports.facebook = function(req, res) {
+	passport.authenticate('facebook', {
+		session: true
+	});
+}
+
+exports.facebookCallback = function(req, res) {
+	passport.authenticate('facebook', { 
+		successRedirect: '/',
+    	failureRedirect: '/' 
+	});
+}
+
+exports.twitter = function(req, res) {
+	passport.authenticate('twitter', {
+		session: true
+	});
+}
+
+exports.twitterCallback = function(req, res) {
+	passport.authenticate('twitter', { 
+		successRedirect: '/',
+    	failureRedirect: '/' 
+	});
+}
+
+exports.logout = function(req, res) {
+	req.logout();
+	res.redirect('/');
+};

@@ -11,7 +11,8 @@
     "mongodb": "*",
     "passport": "*",
     "passport-facebook": "*",
-    "passport-twitter": "*"
+    "passport-twitter": "*",
+    "domain": "*"
   },
   "engines": {
     "node": "0.10.x",

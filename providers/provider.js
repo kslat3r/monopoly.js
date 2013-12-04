@@ -13,12 +13,12 @@ exports.Provider.prototype = {
 			(function(that) {
 				Db.connect(Config.db.uri, function(err, db) {
 					if (err) {
-						console.log(err);
+						callback(err, null);
 					}
 					else {
 						that.db = db;
-						callback(err, db);
-					}
+						callback(null, db);
+					}					
 				});
 			})(this);
 		}
@@ -30,20 +30,20 @@ exports.Provider.prototype = {
 	list: function(collectionName, params, sort, callback) {
 		this.connect(function(err, db) {
 			if (err) {
-				console.log(err);
+				callback(err, null);
 			}
 			else {
 				db.collection(collectionName, function(err, collection) {
 			    	if (err) {
-			    		console.log(err);
+			    		callback(err, null);
 			    	}
 			    	else {
 			    		collection.find(params).sort(sort).toArray(function(err, docs) {
 			    			if (err) {
-			    				console.log(err);
+			    				callback(err, null);
 			    			}
 			    			else {
-			    				callback(err, docs);
+			    				callback(null, docs);
 			    			}
 			  			});
 			    	}
@@ -55,12 +55,12 @@ exports.Provider.prototype = {
 	upsert: function(collectionName, where, data, callback) {
 		this.connect(function(err, db) {
 			if (err) {
-				console.log(err);
+				throw new Exception(err);
 			}
 			else {
 				db.collection(collectionName, function(err, collection) {
 			    	if (err) {
-			    		console.log(err);
+			    		callback(err, null);
 			    	}
 			    	else {
 			    		var opts = {
@@ -71,7 +71,7 @@ exports.Provider.prototype = {
 
 			    		collection.findAndModify(where, [['_id','asc']], data, opts, function(err, doc) {
 			    			if (err) {
-			    				console.log(err);
+			    				callback(err, null);
 			    			}
 			    			else {
 			    				callback(err, doc);
@@ -86,20 +86,20 @@ exports.Provider.prototype = {
 	findById: function(collectionName, id, callback) {
 		this.connect(function(err, db) {
 			if (err) {
-				console.log(err);
+				callback(err, null);
 			}
 			else {
 				db.collection(collectionName, function(err, collection) {
 			    	if (err) {
-			    		console.log(err);	
+			    		callback(err, null);
 			    	}
 			    	else {
 			    		collection.findOne({_id: new ObjectID(id)}, function(err, doc) {
 			    			if (err) {
-			    				console.log(err);			    				
+			    				callback(err, null);
 			    			}
 			    			else {			    						    					
-		    					callback(err, doc);
+		    					callback(null, doc);
 				    		}
 			    		});
 			    	}
@@ -111,20 +111,20 @@ exports.Provider.prototype = {
 	find: function(collectionName, data, callback) {
 		this.connect(function(err, db) {
 			if (err) {
-				console.log(err);
+				callback(err, null);
 			}
 			else {
 				db.collection(collectionName, function(err, collection) {
 			    	if (err) {
-			    		console.log(err);
+			    		callback(err, null);
 			    	}
 			    	else {
 			    		collection.find(data, function(err, docs) {
 			    			if (err) {
-			    				console.log(err);
+			    				callback(err, null);
 			    			}
 			    			else {
-			    				callback(err, docs);
+			    				callback(null, docs);
 			    			}
 			    		});
 			    	}
