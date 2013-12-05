@@ -1,0 +1,27 @@
+div.controls {
+	float: left;
+	width: $controls_width;
+	padding: $controls_padding;
+	margin-left: $controls_margin_left;
+	border: 1px solid #000;
+	position: relative;
+
+	div.logout {
+		top: 10px;
+		right: 10px;
+		position: absolute;
+	}
+
+	h1,
+	h2 {
+		width: auto;
+	}
+
+	h1 {
+		font-size: 130%;
+	}
+
+	h2 {
+		font-size: 120%;
+	}
+}

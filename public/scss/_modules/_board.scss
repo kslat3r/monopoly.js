@@ -2,9 +2,9 @@ div.board {
 	position: relative;
 	height: (9 * $tile_width) + (2 * $tile_height) + (11 * 2); //border
 	width: (11 * $tile_width) + (11 * 2); //border
-	margin: 20px auto;
 	background-color: $board_colour;
 	box-shadow: 3px 3px 10px #888;
+	float: left;
 
 	ul {
 		list-style-type: none;

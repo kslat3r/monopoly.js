@@ -3,13 +3,41 @@ html
 	head
 		title #{title}
 		link(rel='stylesheet', href='/css/screen.css')
-	body
-		block content
-		if user
-			div.logout
-				a(href="/auth/logout") Logout
-		else
-			div.login
-				a(href="/auth/facebook") Login with Facebook
-				br
-				a(href="/auth/twitter") Login with Twitter
+	body		
+		div.container
+			block board
+			div.controls
+				h1 MonopolyJs
+				div.user
+					if user
+						div.logout
+							a(href="/auth/logout") Logout
+					else
+						div.login
+							a(href="/auth/facebook") Login with Facebook
+							br
+							a(href="/auth/twitter") Login with Twitter
+				if user					
+					div.game
+						if game
+							div.players
+						else
+							div.start
+								h2 Start game
+								form(action='/', method='post')  									
+									div.field
+										label(for='num_players') Number of players
+										select#num_players(name="num_players")
+											option(value="") --Select--
+											option(value="2") 2
+											option(value="3") 3
+											option(value="4") 4
+									div.field
+										label(for='your_piece') Your piece
+										select#your_piece(name="your_piece")
+											option(value="") --Select--
+											each piece, key in pieces
+												option(value="#{piece.machine_name}") #{piece.name}
+									div.submit
+										button.btn(type='submit') Create
+			div.clear

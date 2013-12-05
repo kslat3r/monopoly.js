@@ -55,27 +55,27 @@ UsersProvider 			= new UsersProvider();
 
 exports.passport = passport;
 
-exports.facebook = function(req, res) {
-	passport.authenticate('facebook', {
+exports.facebook = function() {
+	return passport.authenticate('facebook', {
 		session: true
 	});
 }
 
-exports.facebookCallback = function(req, res) {
-	passport.authenticate('facebook', { 
+exports.facebookCallback = function() {
+	return passport.authenticate('facebook', { 
 		successRedirect: '/',
     	failureRedirect: '/' 
 	});
 }
 
-exports.twitter = function(req, res) {
-	passport.authenticate('twitter', {
+exports.twitter = function() {
+	return passport.authenticate('twitter', {
 		session: true
 	});
 }
 
-exports.twitterCallback = function(req, res) {
-	passport.authenticate('twitter', { 
+exports.twitterCallback = function() {
+	return passport.authenticate('twitter', { 
 		successRedirect: '/',
     	failureRedirect: '/' 
 	});

@@ -13,6 +13,8 @@ exports.create = function(app) {
 	//web
 
 	app.get('/', index.index);
+	app.get('/:id', index.index);
+	app.post('/', index.createGame);
 
 	//api
 
@@ -28,12 +30,8 @@ exports.create = function(app) {
 	app.delete('/api/cards/:id', cards.delete);
 	app.put('/api/cards/:id', cards.update);
 
-	app.get('/api/dice', dice.list);
-	app.get('/api/dice/:id', dice.get);
-	app.post('/api/dice', dice.create);
-	app.delete('/api/dice/:id', dice.delete);
-	app.put('/api/dice/:id', dice.update);
-
+	app.get('/api/dice', dice.roll);
+	
 	app.get('/api/games', games.list);
 	app.get('/api/games/:id', games.get);
 	app.post('/api/games', games.create);
@@ -60,11 +58,11 @@ exports.create = function(app) {
 
 	//auth
 
-	app.get('/auth/facebook', auth.facebook);
-	app.get('/auth/facebook/callback', auth.facebookCallback);
+	app.get('/auth/facebook', auth.facebook());
+	app.get('/auth/facebook/callback', auth.facebookCallback());
 
-	app.get('/auth/twitter', auth.twitter);
-	app.get('/auth/twitter/callback', auth.twitterCallback);
+	app.get('/auth/twitter', auth.twitter());
+	app.get('/auth/twitter/callback', auth.twitterCallback());
 
 	app.get('/auth/logout', auth.logout);
 };

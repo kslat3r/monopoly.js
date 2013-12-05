@@ -1,19 +1,6 @@
-exports.list = function(req, res) {
-  res.send("Dice list");
+exports.roll = function(req, res) {
+	res.json([
+		Math.floor((Math.random()*6)+1),
+		Math.floor((Math.random()*6)+1)
+	]);
 };
-
-exports.get = function(req, res) {
-  res.send("Dice get");
-};
-
-exports.create = function(req, res) {
-  res.send("Dice create");
-}
-
-exports.delete = function(req, res) {
-  res.send("Dice delete");
-}
-
-exports.update = function(req, res) {
-  res.send("Dice update");
-}
