@@ -15,7 +15,7 @@ app.configure(function() {
 	app.set('views', path.join(__dirname, 'views'));
 	app.set('view engine', 'jade');
 
-	// ?
+	//?
 
 	app.use(express.favicon());
 	app.use(express.logger('dev'));
@@ -38,9 +38,8 @@ app.configure(function() {
 	//error handling
 
 	app.use(function(err, req, res, callback) {
-		console.log(err.stack);
-		//res.json({'errorCode': '', 'errorMsg': ''});
-	  	res.send(500);
+		console.log(err.stack);		
+		res.json({errorCode: (err.http_code != undefined ? err.http_code : '500'), errorMsg: err.message});
 	});
 });
 

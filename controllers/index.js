@@ -2,8 +2,8 @@ var TilesProvider = require('../providers/tiles.js').Provider;
 TilesProvider = new TilesProvider();
 
 exports.index = function(req, res, callback) {
+	throw new Error('blah');
 	var docs = TilesProvider.list(function(err, tiles) {  		
-  		err = new Error('blah');
   		if (err) {
   			callback(err, null);
   		}
