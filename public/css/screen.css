@@ -718,11 +718,20 @@ div.controls h2 {
 }
 
 /* line 2, ../scss/_modules/_form.scss */
-form div.field {
-  width: 100%;
-  margin-bottom: 20px;
+form div.errors {
+  margin-bottom: 10px;
+  color: red;
 }
 /* line 6, ../scss/_modules/_form.scss */
+form div.errors ul {
+  list-style-type: none;
+}
+/* line 11, ../scss/_modules/_form.scss */
+form div.field {
+  width: 100%;
+  margin-bottom: 10px;
+}
+/* line 15, ../scss/_modules/_form.scss */
 form div.field label {
   display: block;
   margin-bottom: 5px;

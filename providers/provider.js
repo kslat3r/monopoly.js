@@ -83,6 +83,31 @@ exports.Provider.prototype = {
 		});
 	},
 
+	insert: function(collectionName, obj, callback) {
+		this.connect(function(err, db) {
+			if (err) {
+				throw new Exception(err);
+			}
+			else {
+				db.collection(collectionName, function(err, collection) {
+			    	if (err) {
+			    		callback(err, null);
+			    	}
+			    	else {
+			    		collection.insert(obj, function(err, docs) {
+			    			if (err) {
+			    				callback(err, null);
+			    			}
+			    			else {
+			    				callback(err, docs);
+			    			}
+			    		});
+			    	}
+			    });
+			}
+		});
+	},
+
 	findById: function(collectionName, id, callback) {
 		this.connect(function(err, db) {
 			if (err) {

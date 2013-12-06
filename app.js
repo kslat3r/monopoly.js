@@ -5,6 +5,7 @@ var http 			= require('http');
 var path 			= require('path');
 var passport		= require('passport');
 var domain			= require('domain');
+var validator		= require('express-validator');
 var routes 			= require('./routes.js');
 var app 			= express();
 
@@ -34,6 +35,10 @@ app.configure(function() {
 	//csrf protection
 
 	app.use(express.csrf());
+
+	//validation
+
+	app.use(validator());
 	
 	//router
 
