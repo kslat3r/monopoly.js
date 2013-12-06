@@ -23,13 +23,17 @@ app.configure(function() {
 	app.use(express.urlencoded());
 	app.use(express.methodOverride());
 	app.use(express.static(path.join(__dirname, 'public')));
-	
+
 	//sessions
 
 	app.use(express.cookieParser());
 	app.use(express.session({secret: 'm0n0p0lyj5'}));
 	app.use(passport.initialize());
 	app.use(passport.session());
+
+	//csrf protection
+
+	app.use(express.csrf());
 	
 	//router
 

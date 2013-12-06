@@ -26,7 +26,8 @@ exports.index = function(req, res, callback) {
 						topTiles: top,
 						rightTiles: right,
 						user: req.user,
-						pieces: pieces
+						pieces: pieces,
+						token: req.csrfToken()
 					});
 				}
 			});

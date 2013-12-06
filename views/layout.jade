@@ -24,7 +24,9 @@ html
 						else
 							div.start
 								h2 Start game
-								form(action='/', method='post')  									
+								form(action='/', method='post')
+									div.message
+
 									div.field
 										label(for='num_players') Number of players
 										select#num_players(name="num_players")
@@ -37,7 +39,8 @@ html
 										select#your_piece(name="your_piece")
 											option(value="") --Select--
 											each piece, key in pieces
-												option(value="#{piece.machine_name}") #{piece.name}
+												option(value=piece.machine_name) #{piece.name}
 									div.submit
-										button.btn(type='submit') Create
+										input(type='hidden', name='_csrf', value="#{token}")
+										button.btn(type='submit') Start
 			div.clear

@@ -710,8 +710,9 @@ div.controls h2 {
 /* line 20, ../scss/_modules/_controls.scss */
 div.controls h1 {
   font-size: 130%;
+  margin-top: 0;
 }
-/* line 24, ../scss/_modules/_controls.scss */
+/* line 25, ../scss/_modules/_controls.scss */
 div.controls h2 {
   font-size: 120%;
 }
