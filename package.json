@@ -14,7 +14,7 @@
     "passport-twitter": "*",
     "domain": "*",
     "express-validator": "*",
-    "async", "*"
+    "async": "*"
   },
   "engines": {
     "node": "0.10.x",
