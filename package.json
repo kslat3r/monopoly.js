@@ -13,7 +13,8 @@
     "passport-facebook": "*",
     "passport-twitter": "*",
     "domain": "*",
-    "express-validator": "*"
+    "express-validator": "*",
+    "async", "*"
   },
   "engines": {
     "node": "0.10.x",

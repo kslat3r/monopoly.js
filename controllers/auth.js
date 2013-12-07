@@ -33,7 +33,6 @@ UsersProvider 			= new UsersProvider();
 			callbackURL: config.twitter.callbackURL
 		},
 		function(token, tokenSecret, profile, done) {
-			console.log(profile);
 			UsersProvider.upsert({id: profile.id}, profile, function(err, user) {
 	  			done(err, user);
 	  		});
