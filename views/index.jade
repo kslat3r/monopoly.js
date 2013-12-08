@@ -7,34 +7,34 @@ block board
 		div.community_chest
 			h1 Community Chest
 		ul.bottom
-			each tile, key in bottomTiles
-				li(class="#{key == 0 ? 'bottom_left ' + tile.type : key == (bottomTiles.length - 1) ? 'bottom_right ' + tile.type : tile.type}", id="#{tile.machine_name}")
-					span.colour(class="#{tile.colour != null ? tile.colour : tile.type} property-holder")
+			each Tile, key in BottomTiles
+				li(class="#{key == 0 ? 'bottom_left ' + Tile.Generic.get('type') : key == (BottomTiles.length - 1) ? 'bottom_right ' + Tile.Generic.get('type') : Tile.Generic.get('type')}", id="#{Tile.Generic.get('machine_name')}")
+					span.colour(class="#{Tile.Generic.get('colour') != null ? Tile.Generic.get('colour') : Tile.Generic.get('type')} property-holder")
 					div.content						
-						span.title #{tile.name}
-						if tile.price != 0
-							span.price £#{tile.price}
+						span.title #{Tile.Generic.get('name')}
+						if Tile.Generic.get('price') != 0
+							span.price £#{Tile.Generic.get('price')}
 		ul.left
-			each tile, key in leftTiles
-				li(class="#{tile.type}", id="#{tile.machine_name}", id="#{tile.machine_name}")
-					span.colour(class="#{tile.colour != null ? tile.colour : tile.type}", id="#{tile.machine_name} property-holder")						
+			each Tile, key in LeftTiles
+				li(class="#{Tile.Generic.get('type')}", id="#{Tile.Generic.get('machine_name')}", id="#{Tile.Generic.get('machine_name')}")
+					span.colour(class="#{Tile.Generic.get('colour') != null ? Tile.Generic.get('colour') : Tile.Generic.get('type')}", id="#{Tile.Generic.get('machine_name')} property-holder")
 					div.content						
-						span.title #{tile.name}
-						if tile.price != 0
-							span.price £#{tile.price}
+						span.title #{Tile.Generic.get('name')}
+						if Tile.Generic.get('price') != 0
+							span.price £#{Tile.Generic.get('price')}
 		ul.top
-			each tile, key in topTiles
-				li(class="#{key == 0 ? 'top_left ' + tile.type : key == (topTiles.length - 1) ? 'top_right ' + tile.type : tile.type}", id="#{tile.machine_name}")
-					span.colour(class="#{tile.colour != null ? tile.colour : tile.type} property-holder")
-					div.content						
-						span.title #{tile.name}
-						if tile.price != 0
-							span.price £#{tile.price}
-		ul.right
-			each tile, key in rightTiles
-				li(class="#{tile.type}", id="#{tile.machine_name}")
-					span.colour(class="#{tile.colour != null ? tile.colour : tile.type} property-holder")
+			each Tile, key in TopTiles
+				li(class="#{key == 0 ? 'top_left ' + Tile.Generic.get('type') : key == (TopTiles.length - 1) ? 'top_right ' + Tile.Generic.get('type') : Tile.Generic.get('type')}", id="#{Tile.Generic.get('machine_name')}")
+					span.colour(class="#{Tile.Generic.get('colour') != null ? Tile.Generic.get('colour') : Tile.Generic.get('type')} property-holder")
 					div.content
-						span.title #{tile.name}
-						if tile.price != 0
-							span.price £#{tile.price}
+						span.title #{Tile.Generic.get('name')}
+						if Tile.Generic.get('price') != 0
+							span.price £#{Tile.Generic.get('price')}
+		ul.right
+			each Tile, key in RightTiles
+				li(class="#{Tile.Generic.get('type')}", id="#{Tile.Generic.get('machine_name')}")
+					span.colour(class="#{Tile.Generic.get('colour') != null ? Tile.Generic.get('colour') : Tile.Generic.get('type')} property-holder")
+					div.content
+						span.title #{Tile.Generic.get('name')}
+						if Tile.Generic.get('price') != 0
+							span.price £#{Tile.Generic.get('price')}

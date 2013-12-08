@@ -12,22 +12,22 @@ GamesProvider = new GamesProvider();
 exports.index = function(req, res, callback) {
 	async.parallel([
 		function(callback) {
-			TilesProvider.list(function(err, tiles) {
+			TilesProvider.list(function(err, Tiles) {
 				if (err) {
   					callback(err, null);
   				}
   				else {
-  					callback(null, tiles);
+  					callback(null, Tiles);
   				}
   			});
 		},
 		function(callback) {
-			PiecesProvider.list(function(err, pieces) {
+			PiecesProvider.list(function(err, Pieces) {
 		  		if (err) {
 		  			callback(err, null);
 		  		}
 		  		else {
-					callback(null, pieces);  		
+					callback(null, Pieces);
 				}
 			});
 		}
@@ -44,12 +44,12 @@ exports.index = function(req, res, callback) {
 
 			res.render('index', {
 				title: 'MonopolyJs',
-				bottomTiles: bottom,
-				leftTiles: left,
-				topTiles: top,
-				rightTiles: right,
+				BottomTiles: bottom,
+				LeftTiles: left,
+				TopTiles: top,
+				RightTiles: right,
 				user: req.user,
-				pieces: results[1],
+				Pieces: results[1],
 				token: req.csrfToken(),
 				errors: req.errors != undefined ? req.errors : null,
 				num_players: req.body.num_players != undefined ? req.body.num_players : null,
@@ -70,64 +70,59 @@ exports.createGame = function(req, res, callback) {
 
     	async.waterfall([
     		function(callback) {
-	    		PiecesProvider.find({machine_name: req.body.your_piece}, function(err, docs) {
+	    		PiecesProvider.find({machine_name: req.body.your_piece}, function(err, Pieces) {
 		    		if (err) {
 		    			callback(err, null);
 		    		}
 		    		else {
-		    			callback(null, docs);
+		    			callback(null, Pieces);
 		    		}
 		    	});
 		    },
-		    function(docs, callback) {
-		    	docs.count(function(err, count) {
-		    		if (count != 1) {
-    					callback(new Error('Zero or more than one piece found for machine name'), null);
-    				}    		
-    				else {
-    					callback(null, docs);
-    				}
-    			});
+		    function(Pieces, callback) {		    	
+	    		if (Pieces.length != 1) {
+					callback(new Error('Zero or more than one piece found for machine name'), null);
+				}    		
+				else {
+					callback(null, Pieces);
+				}
 		    },
-		    function(docs, callback) {
-		    	docs.toArray(function(err, pieces) {
+		    function(Pieces, callback) {
 
-		    		//merge user with piece
+	    		//merge user with piece
 
-			    	var thisPlayer 		= req.user;
-			    	thisPlayer.piece 	= pieces[0]
+		    	var thisPlayer 		= req.user;
+		    	thisPlayer.Piece 	= Pieces[0].Generic.toObject();
 
-			    	//create players array
+		    	//create players array
 
-			    	var players = [];
-			    	for (i = 1; i <= req.body.num_players; i++) {
-			    		if (i == 1) {
-			    			players.push(thisPlayer);
-			    		}
-			    		else {
-			    			players.push({});
-			    		}
-			    	}
+		    	var players = [];
+		    	for (i = 1; i <= req.body.num_players; i++) {
+		    		if (i == 1) {
+		    			players.push(thisPlayer);
+		    		}
+		    		else {
+		    			players.push({});
+		    		}
+		    	}
 
-			    	//create game object
+		    	//create game object
 
-			        var obj = {
-			        	num_players: req.body.num_players,
-			        	players: players,
-			        	started: false
-			        };
+		        var obj = {
+		        	num_players: req.body.num_players,
+		        	players: players,
+		        	started: false
+		        };
 
-			        callback(null, obj);
-			    });
+		        callback(null, obj);
 		    },
 		    function(obj, callback) {
-		    	GamesProvider.insert(obj, function(err, docs) {
+		    	GamesProvider.insert(obj, function(err, Games) {
 		        	if (err) {
 		        		callback(err, null);
 		        	}
 		        	else {
-		        		console.log(docs[0]);
-		        		res.redirect('/' + docs[0]._id.toString());
+		        		res.redirect('/' + Games[0].Generic.get('_id'));
 		        	}
 		        });
 		    }

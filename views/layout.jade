@@ -41,8 +41,8 @@ html
 										label(for='your_piece') Your piece
 										select#your_piece(name="your_piece")
 											option(value="") --Select--
-											each piece, key in pieces
-												option(value=piece.machine_name, selected=your_piece == piece.machine_name) #{piece.name}
+											each Piece, key in Pieces
+												option(value=Piece.Generic.get('machine_name'), selected=your_piece == Piece.Generic.get('machine_name')) #{Piece.Generic.get('name')}
 									div.submit
 										input(type='hidden', name='_csrf', value="#{token}")
 										button.btn(type='submit') Start

@@ -1,4 +1,5 @@
-var Provider = require('./provider.js').Provider;
+var Provider 	= require('./provider.js').Provider;
+var Model 		= require('./../models/game.js').Model;
 
 exports.Provider = function() {
 	this.collectionName = 'games';
@@ -7,6 +8,19 @@ exports.Provider = function() {
 
 exports.Provider.prototype = {
 	insert: function(obj, callback) {
-		this.provider.insert(this.collectionName, obj, callback);
+		this.provider.insert(this.collectionName, obj, function(err, docs) {
+			if (err) {
+				callback(err, null);
+			}
+			else {
+				var out = [];
+					
+				for (var i in docs) {
+					out.push(new Model(docs[i]));
+				}
+
+				callback(null, out);
+			}
+		});
 	}
 };

@@ -99,7 +99,7 @@ exports.Provider.prototype = {
 			    				callback(err, null);
 			    			}
 			    			else {
-			    				callback(err, docs);
+		    					callback(err, docs);
 			    			}
 			    		});
 			    	}
@@ -144,7 +144,7 @@ exports.Provider.prototype = {
 			    		callback(err, null);
 			    	}
 			    	else {
-			    		collection.find(data, function(err, docs) {
+			    		collection.find(data).toArray(function(err, docs) {
 			    			if (err) {
 			    				callback(err, null);
 			    			}

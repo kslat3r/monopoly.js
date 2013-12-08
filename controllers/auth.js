@@ -18,8 +18,8 @@ UsersProvider 			= new UsersProvider();
 			callbackURL: config.facebook.callback_url
 		}, 
 		function(accessToken, refreshToken, profile, done) {
-	  		UsersProvider.upsert({id: profile.id}, profile, function(err, user) {
-	  			done(err, user);
+	  		UsersProvider.upsert({id: profile.id}, profile, function(err, User) {
+	  			done(err, User.Generic.toObject());
 	  		});
 		}
 	));
@@ -33,8 +33,8 @@ UsersProvider 			= new UsersProvider();
 			callbackURL: config.twitter.callbackURL
 		},
 		function(token, tokenSecret, profile, done) {
-			UsersProvider.upsert({id: profile.id}, profile, function(err, user) {
-	  			done(err, user);
+			UsersProvider.upsert({id: profile.id}, profile, function(err, User) {
+	  			done(err, User.Generic.toObject());
 	  		});
 		}
 	));
@@ -46,8 +46,8 @@ UsersProvider 			= new UsersProvider();
 	});
 
 	passport.deserializeUser(function(id, done) {
-		UsersProvider.findById(id, function(err, user) {
-			done(err, user);
+		UsersProvider.findById(id, function(err, User) {
+			done(err, User.Generic.toObject());
 		});
 	});
 })();

@@ -1,4 +1,5 @@
-var Provider = require('./provider.js').Provider;
+var Provider 	= require('./provider.js').Provider;
+var Model 		= require('./../models/user.js').Model;
 
 exports.Provider = function() {
 	this.collectionName = 'users';
@@ -7,7 +8,20 @@ exports.Provider = function() {
 
 exports.Provider.prototype = {
 	list: function(callback) {
-		this.provider.list(this.collectionName, callback);		
+		this.provider.list(this.collectionName, function(err, docs) {
+			if (err) {
+				callback(err, null);
+			}
+			else {
+				var out = [];
+
+				for (var i in docs) {
+					out.push(new Model(docs[i]));
+				}
+
+				callback(null, out);
+			}
+		});		
 	},
 
 	upsert: function(where, data, callback) {
@@ -19,10 +33,24 @@ exports.Provider.prototype = {
 			delete data['_json'];
 		}
 
-		this.provider.upsert(this.collectionName, where, data, callback);
+		this.provider.upsert(this.collectionName, where, data, function(err, doc) {
+			if (err) {
+				callback(err, null);
+			}
+			else {
+				callback(null, new Model(doc));
+			}
+		});
 	},
 
 	findById: function(id, callback) {
-		this.provider.findById(this.collectionName, id, callback);
+		this.provider.findById(this.collectionName, id, function(err, doc) {
+			if (err) {
+				callback(err, null);
+			}
+			else {
+				callback(null, new Model(doc));
+			}
+		});
 	}
 };
