@@ -12,7 +12,7 @@ GamesProvider = new GamesProvider();
 exports.index = function(req, res, callback) {
 	async.parallel([
 		function(callback) {
-			TilesProvider.list(function(err, Tiles) {
+			TilesProvider.list({position: 1}, function(err, Tiles) {
 				if (err) {
   					callback(err, null);
   				}
@@ -22,7 +22,7 @@ exports.index = function(req, res, callback) {
   			});
 		},
 		function(callback) {
-			PiecesProvider.list(function(err, Pieces) {
+			PiecesProvider.list({}, function(err, Pieces) {
 		  		if (err) {
 		  			callback(err, null);
 		  		}
@@ -92,7 +92,7 @@ exports.createGame = function(req, res, callback) {
 	    		//merge user with piece
 
 		    	var thisPlayer 		= req.user;
-		    	thisPlayer.Piece 	= Pieces[0].Generic.toObject();
+		    	thisPlayer.Piece 	= Pieces[0].toObject();
 
 		    	//create players array
 
@@ -122,7 +122,7 @@ exports.createGame = function(req, res, callback) {
 		        		callback(err, null);
 		        	}
 		        	else {
-		        		res.redirect('/' + Games[0].Generic.get('_id'));
+		        		res.redirect('/' + Games[0].get('_id'));
 		        	}
 		        });
 		    }

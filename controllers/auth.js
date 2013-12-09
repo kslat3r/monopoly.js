@@ -19,7 +19,12 @@ UsersProvider 			= new UsersProvider();
 		}, 
 		function(accessToken, refreshToken, profile, done) {
 	  		UsersProvider.upsert({id: profile.id}, profile, function(err, User) {
-	  			done(err, User.Generic.toObject());
+	  			if (err) {
+					done(err, null);
+				}
+				else {
+					done(null, User.toObject());
+				}
 	  		});
 		}
 	));
@@ -34,7 +39,12 @@ UsersProvider 			= new UsersProvider();
 		},
 		function(token, tokenSecret, profile, done) {
 			UsersProvider.upsert({id: profile.id}, profile, function(err, User) {
-	  			done(err, User.Generic.toObject());
+	  			if (err) {
+					done(err, null);
+				}
+				else {
+					done(null, User.toObject());
+				}
 	  		});
 		}
 	));
@@ -47,7 +57,12 @@ UsersProvider 			= new UsersProvider();
 
 	passport.deserializeUser(function(id, done) {
 		UsersProvider.findById(id, function(err, User) {
-			done(err, User.Generic.toObject());
+			if (err) {
+				done(err, null);
+			}
+			else {
+				done(null, User.toObject());
+			}
 		});
 	});
 })();

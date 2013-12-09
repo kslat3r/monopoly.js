@@ -1,5 +1,6 @@
-exports.Generic = function(data) {
-	this.data = data || {};
+exports.Generic = function(collection, data) {
+	this.collection = collection;
+	this.data 		= data || {};	
 };
 
 exports.Generic.prototype = {
@@ -19,4 +20,4 @@ exports.Generic.prototype = {
 	toObject: function() {
 		return this.data;
 	}
-};
+}

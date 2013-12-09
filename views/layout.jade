@@ -42,7 +42,7 @@ html
 										select#your_piece(name="your_piece")
 											option(value="") --Select--
 											each Piece, key in Pieces
-												option(value=Piece.Generic.get('machine_name'), selected=your_piece == Piece.Generic.get('machine_name')) #{Piece.Generic.get('name')}
+												option(value=Piece.get('machine_name'), selected=your_piece == Piece.get('machine_name')) #{Piece.get('name')}
 									div.submit
 										input(type='hidden', name='_csrf', value="#{token}")
 										button.btn(type='submit') Start

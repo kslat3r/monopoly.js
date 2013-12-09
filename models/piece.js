@@ -1,6 +1,8 @@
+var util 	= require('util');
 var Generic = require('./generic.js').Generic;
 
 exports.Model = function(data) {
-	this.collectionName = 'pieces';
-	this.Generic 		= new Generic(data);
+	Generic.apply(this, ['pieces', data]);
 }
+
+util.inherits(exports.Model, Generic);

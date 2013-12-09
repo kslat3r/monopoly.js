@@ -3,8 +3,10 @@ var Db 			= require('mongodb').Db;
 var Server		= require('mongodb').Server;
 var ObjectID 	= require('mongodb').ObjectID;
 
-exports.Provider = function() {
-	this.db = null;  	
+exports.Provider = function(collectionName, Model) {
+	this.collectionName = collectionName;
+	this.Model			= Model;
+	this.db 			= null;
 };
 
 exports.Provider.prototype = {
@@ -27,134 +29,177 @@ exports.Provider.prototype = {
 		}
 	},
 
-	list: function(collectionName, params, sort, callback) {
-		this.connect(function(err, db) {
-			if (err) {
-				callback(err, null);
-			}
-			else {
-				db.collection(collectionName, function(err, collection) {
-			    	if (err) {
-			    		callback(err, null);
-			    	}
-			    	else {
-			    		collection.find(params).sort(sort).toArray(function(err, docs) {
-			    			if (err) {
-			    				callback(err, null);
-			    			}
-			    			else {
-			    				callback(null, docs);
-			    			}
-			  			});
-			    	}
-			  	});
-			}
-		});
+	list: function(sort, callback) {
+		(function(that) {
+			that.connect(function(err, db) {
+				if (err) {
+					callback(err, null);
+				}
+				else {
+					db.collection(that.collectionName, function(err, collection) {
+						if (err) {
+				    		callback(err, null);
+				    	}
+				    	else {
+				    		collection.find({}).sort(sort).toArray(function(err, docs) {
+				    			if (err) {
+				    				callback(err, null);
+				    			}
+				    			else {
+			    					if (err) {
+			    						callback(err, null);
+			    					}	
+			    					else {
+			    						out = [];
+
+			    						for (var i in docs) {
+			    							out.push(new that.Model(docs[i]))
+			    						}
+
+			    						callback(null, out);
+				    				};				    				
+				    			}
+				  			});
+				    	}
+				  	});
+				}
+			});
+		})(this);
 	},
 
-	upsert: function(collectionName, where, data, callback) {
-		this.connect(function(err, db) {
-			if (err) {
-				throw new Exception(err);
-			}
-			else {
-				db.collection(collectionName, function(err, collection) {
-			    	if (err) {
-			    		callback(err, null);
-			    	}
-			    	else {
-			    		var opts = {
-			    			upsert: true, 
-			    			new: true,
-			    			safe: true
-			    		};
+	upsert: function(where, data, callback) {
+		(function(that) {
+			that.connect(function(err, db) {
+				if (err) {
+					throw new Exception(err);
+				}
+				else {
+					db.collection(that.collectionName, function(err, collection) {
+				    	if (err) {
+				    		callback(err, null);
+				    	}
+				    	else {
+				    		var opts = {
+				    			upsert: true, 
+				    			new: true,
+				    			safe: true
+				    		};
 
-			    		collection.findAndModify(where, [['_id','asc']], data, opts, function(err, doc) {
-			    			if (err) {
-			    				callback(err, null);
-			    			}
-			    			else {
-			    				callback(err, doc);
-			    			}
-			    		});
-			    	}
-			    });
-			}
-		});
+				    		collection.findAndModify(where, [['_id','asc']], data, opts, function(err, doc) {
+				    			if (err) {
+				    				callback(err, null);
+				    			}
+				    			else {
+				    				callback(err, new that.Model(doc));
+				    			}
+				    		});
+				    	}
+				    });
+				}
+			});
+		})(this);
 	},
 
-	insert: function(collectionName, obj, callback) {
-		this.connect(function(err, db) {
-			if (err) {
-				throw new Exception(err);
-			}
-			else {
-				db.collection(collectionName, function(err, collection) {
-			    	if (err) {
-			    		callback(err, null);
-			    	}
-			    	else {
-			    		collection.insert(obj, function(err, docs) {
-			    			if (err) {
-			    				callback(err, null);
-			    			}
-			    			else {
-		    					callback(err, docs);
-			    			}
-			    		});
-			    	}
-			    });
-			}
-		});
+	insert: function(obj, callback) {
+		(function(that) {
+			that.connect(function(err, db) {
+				if (err) {
+					throw new Exception(err);
+				}
+				else {
+					db.collection(that.collectionName, function(err, collection) {
+				    	if (err) {
+				    		callback(err, null);
+				    	}
+				    	else {
+				    		collection.insert(obj, function(err, docs) {
+				    			if (err) {
+				    				callback(err, null);
+				    			}
+				    			else {
+			    					if (err) {
+			    						callback(err, null);
+			    					}	
+			    					else {
+			    						out = [];
+
+			    						for (var i in docs) {
+			    							out.push(new that.Model(docs[i]))
+			    						}
+
+			    						callback(null, out);
+			    					}
+				    			}
+				    		});
+				    	}
+				    });
+				}
+			});
+		})(this);
 	},
 
-	findById: function(collectionName, id, callback) {
-		this.connect(function(err, db) {
-			if (err) {
-				callback(err, null);
-			}
-			else {
-				db.collection(collectionName, function(err, collection) {
-			    	if (err) {
-			    		callback(err, null);
-			    	}
-			    	else {
-			    		collection.findOne({_id: new ObjectID(id)}, function(err, doc) {
-			    			if (err) {
-			    				callback(err, null);
-			    			}
-			    			else {			    						    					
-		    					callback(null, doc);
-				    		}
-			    		});
-			    	}
-			    });
-			}
-		});
+	findById: function(id, callback) {
+		(function(that) {
+			that.connect(function(err, db) {
+				if (err) {
+					callback(err, null);
+				}
+				else {
+					db.collection(that.collectionName, function(err, collection) {
+				    	if (err) {
+				    		callback(err, null);
+				    	}
+				    	else {
+				    		collection.findOne({_id: new ObjectID(id)}, function(err, doc) {
+				    			if (err) {
+				    				callback(err, null);
+				    			}
+				    			else {			    						    					
+			    					callback(null, new that.Model(doc));
+					    		}
+				    		});
+				    	}
+				    });
+				}
+			});
+		})(this);
 	},
 
-	find: function(collectionName, data, callback) {
-		this.connect(function(err, db) {
-			if (err) {
-				callback(err, null);
-			}
-			else {
-				db.collection(collectionName, function(err, collection) {
-			    	if (err) {
-			    		callback(err, null);
-			    	}
-			    	else {
-			    		collection.find(data).toArray(function(err, docs) {
-			    			if (err) {
-			    				callback(err, null);
-			    			}
-			    			else {
-			    				callback(null, docs);
-			    			}
-			    		});
-			    	}
-			    });
-			}
-		});
+	find: function(data, callback) {
+		(function(that) {
+			that.connect(function(err, db) {
+				if (err) {
+					callback(err, null);
+				}
+				else {
+					db.collection(that.collectionName, function(err, collection) {
+				    	if (err) {
+				    		callback(err, null);
+				    	}
+				    	else {
+				    		collection.find(data).toArray(function(err, docs) {
+				    			if (err) {
+				    				callback(err, null);
+				    			}
+				    			else {
+			    					if (err) {
+			    						callback(err, null);
+			    					}	
+			    					else {
+			    						out = [];
+
+			    						for (var i in docs) {
+			    							out.push(new that.Model(docs[i]))
+			    						}
+
+			    						callback(null, out);
+				    				}
+				    			}
+				    		});
+				    	}
+				    });
+				}
+			});
+		})(this);
 	}
 }
