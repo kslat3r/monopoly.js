@@ -20,7 +20,8 @@ exports.create = function(app) {
 	app.get('/', index.index);
 	app.post('/', index.createGame);
 
-	app.get('/games/:id', games.index);
+	app.get('/games', games.index);
+	app.get('/games/:id', games.game);
 
 	//api
 

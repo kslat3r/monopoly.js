@@ -16,7 +16,8 @@
     "express-validator": "*",
     "async": "*",
     "connect-mongo": "*",
-    "mongoose": "*"
+    "mongoose": "*",
+    "moment": "~2.4.0"
   },
   "engines": {
     "node": "0.10.x",

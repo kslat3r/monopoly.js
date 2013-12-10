@@ -17,14 +17,14 @@ exports.index = function(req, res, callback) {
   			});
 		},
 		function(callback) {
-			Piece.find({}).sort({machine_name: 1}).exec(function(err, Pieces) {
-		  		if (err) {
-		  			callback(err, null);
-		  		}
-		  		else {
-					callback(null, Pieces);
-				}
-			});
+			if (req.user) {
+				Game.find({_players: req.user.get('_id')}).populate('_players').sort({created_date_microtime: -1}).exec(function(err, Games) {
+					callback(null, Games);
+				});
+			}
+			else {
+				callback(null, null);
+			}
 		}
 	], 
 	function(err, results) {
@@ -37,27 +37,27 @@ exports.index = function(req, res, callback) {
 	  		var top 	= results[0].splice(0, 11);
 	  		var right 	= results[0].splice(0, 9);
 
-			res.render('game', {
+			res.render('game', {				
 				title: 'MonopolyJs',
 				BottomTiles: bottom,
 				LeftTiles: left,
 				TopTiles: top,
 				RightTiles: right,
 				User: req.user,
-				Pieces: results[1],
 				token: req.csrfToken(),
 				errors: req.errors != undefined ? req.errors : null,
 				num_players: req.body.num_players != undefined ? req.body.num_players : null,
-				your_piece: req.body.your_piece != undefined ? req.body.your_piece : null,
-				Game: null
+				name: req.body.name != undefined ? req.body.name : null,
+				Game: null,
+				Games: results[1]
 			});
 		}
 	});
 };
 
 exports.createGame = function(req, res, callback) {
-	req.assert('num_players', 'Number of players is required').notEmpty();
-    req.assert('your_piece', 'Your piece is required').notEmpty();
+	req.assert('name', 'Name is required').notEmpty();
+	req.assert('num_players', 'Number of players is required').notEmpty();    
     var errors = req.validationErrors();
 
     if (!errors) {
@@ -66,41 +66,21 @@ exports.createGame = function(req, res, callback) {
 
     	async.waterfall([
     		function(callback) {
-	    		Piece.find({machine_name: req.body.your_piece}).exec(function(err, Pieces) {
-		    		if (err) {
-		    			callback(err, null);
-		    		}
-		    		else {
-		    			callback(null, Pieces);
-		    		}
-		    	});
-		    },
-		    function(Pieces, callback) {		    	
-	    		if (Pieces.length != 1) {
-					callback(new Error('Zero or more than one piece found for machine name'), null);
-				}    		
-				else {
-					callback(null, Pieces);
-				}
-		    },
-		    function(Pieces, callback) {
-
-	    		//merge user with piece
-
-		    	var thisPlayer 		= req.user;
-		    	thisPlayer.Piece 	= Pieces[0];
-
-		    	//create players array
+	    		
+	    		//create players array
 
 		    	var players = [];
-	   			players.push(thisPlayer);
-	
+	   			players.push(req.user);
+
 		    	//create game object
 
 		        var obj = {
 		        	num_players: req.body.num_players,
-		        	players: players,
-		        	started: false
+		        	_players: players,
+		        	started: false,
+		        	name: req.body.name,
+		        	created_date: moment().format('D/M/YY HH:mm'),
+		        	created_date_microtime: (new Date).getTime()
 		        };
 
 		        callback(null, obj);

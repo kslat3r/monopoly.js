@@ -4,6 +4,10 @@ var Tile 		= mongoose.model('Tile');
 var Game 		= mongoose.model('Game');
 
 exports.index = function(req, res, callback) {
+	res.send('Hello, world blah!');
+};
+
+exports.game = function(req, res, callback) {
 	async.parallel([
 		function(callback) {
 			Tile.find({}).sort({position: 1}).exec(function(err, Tiles) {
@@ -19,6 +23,9 @@ exports.index = function(req, res, callback) {
 			Game.findById(req.params.id).populate('_players').exec(function(err, Game) {
 		  		if (err) {
 		  			callback(err, null);
+		  		}
+		  		else if (Game == null) {
+		  			res.redirect('/');
 		  		}
 		  		else {
 		  			if (req.user != undefined) {

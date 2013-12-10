@@ -308,14 +308,6 @@ sub {
 /**
  * Address margins set differently in IE 6/7.
  */
-/* line 378, ../scss/_normalize.scss */
-dl,
-menu,
-ol,
-ul {
-  margin: 1.5em 0;
-}
-
 /* line 392, ../scss/_normalize.scss */
 dd {
   margin: 0 0 0 40px;
@@ -885,6 +877,10 @@ div.controls h1 {
 div.controls h2 {
   font-size: 120%;
 }
+/* line 29, ../scss/_modules/_controls.scss */
+div.controls ul {
+  margin-left: 30px;
+}
 
 /* line 2, ../scss/_modules/_form.scss */
 form div.errors {
@@ -894,13 +890,14 @@ form div.errors {
 /* line 6, ../scss/_modules/_form.scss */
 form div.errors ul {
   list-style-type: none;
+  margin-left: 0;
 }
-/* line 11, ../scss/_modules/_form.scss */
+/* line 12, ../scss/_modules/_form.scss */
 form div.field {
   width: 100%;
   margin-bottom: 10px;
 }
-/* line 15, ../scss/_modules/_form.scss */
+/* line 16, ../scss/_modules/_form.scss */
 form div.field label {
   display: block;
   margin-bottom: 5px;

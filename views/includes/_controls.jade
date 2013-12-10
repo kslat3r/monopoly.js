@@ -1,5 +1,6 @@
 div.controls
-	h1 MonopolyJs
+	h1 
+		a(href="/") MonopolyJs
 	div.user
 		if User
 			include _logout
@@ -14,5 +15,6 @@ div.controls
 					div.waiting
 						h2 Waiting for more players (#{Game.get('num_players') - Game.get('_players').length})
 			else
+				include _games
 				include _create_game
 					
