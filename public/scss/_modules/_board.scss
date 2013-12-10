@@ -147,18 +147,18 @@ div.board {
 			top: 0;
 
 			li {
-				transform: rotate(180deg);
+				@include rotate(180deg);
 
 				&.top_left {
 					div.content {
-						transform: rotate(315deg);
+						@include rotate(315deg);
 						margin-top: 30px;
 					}
 				}
 
 				&.top_right {
 					div.content {
-						transform: rotate(45deg);
+						@include rotate(45deg);
 						margin-top: 30px;
 					}
 				}
@@ -169,14 +169,14 @@ div.board {
 			li {
 				&.bottom_left {
 					div.content {
-						transform: rotate(45deg);
+						@include rotate(45deg);
 						margin-top: 22px;
 					}
 				}
 
 				&.bottom_right {
 					div.content {
-						transform: rotate(-45deg);
+						@include rotate(-45deg);
 						margin-top: 30px;
 					}
 				}
@@ -192,7 +192,7 @@ div.board {
 			li {
 				float: none;
 				width: $tile_width; //border
-				transform: rotate(90deg);
+				@include rotate(90deg);
 				height: $tile_width;
 				width: $tile_height;
 			}
@@ -203,7 +203,7 @@ div.board {
 			right: 0;
 
 			li {
-				transform: rotate(270deg);
+				@include rotate(270deg);
 			}
 		}			
 	}
@@ -224,14 +224,14 @@ div.board {
 	}
 
 	div.chance {
-		transform: rotate(-45deg);
+		@include rotate(-45deg);
 		right: 100px;
 		bottom: 160px;
 		background-color: $chance_background_colour;
 	}
 
 	div.community_chest {
-		transform: rotate(-225deg);
+		@include rotate(-225deg);
 		top: 160px;
 		left: 100px;
 		background-color: $community_chest_background_colour;

@@ -30,6 +30,8 @@ audio,
 canvas,
 video {
   display: inline-block;
+  *display: inline;
+  *zoom: 1;
 }
 
 /**
@@ -66,10 +68,24 @@ template {
 html {
   font-family: sans-serif;
   /* 1 */
+  font-size: 100%;
+  /* 3 */
   -ms-text-size-adjust: 100%;
   /* 2 */
   -webkit-text-size-adjust: 100%;
   /* 2 */
+}
+
+/**
+ * Address `font-family` inconsistency between `textarea` and other form
+ * elements.
+ */
+/* line 139, ../scss/_normalize.scss */
+button,
+input,
+select,
+textarea {
+  font-family: sans-serif;
 }
 
 /**
@@ -112,6 +128,21 @@ a:hover {
    Typography
    ========================================================================== */
 /**
+ * Set 1 unit of vertical rhythm on the top and bottom margin.
+ */
+/* line 191, ../scss/_normalize.scss */
+p,
+pre {
+  margin: 1.5em 0;
+}
+
+/* line 195, ../scss/_normalize.scss */
+blockquote {
+  /* Set 1 unit of vertical rhythm on the top and bottom margin. */
+  margin: 1.5em 40px;
+}
+
+/**
  * Address variable `h1` font-size and margin within `section` and `article`
  * contexts in Firefox 4+, Safari 5, and Chrome.
  */
@@ -119,9 +150,50 @@ a:hover {
 h1 {
   /* Set the font-size and line-height while keeping a proper vertical rhythm. */
   font-size: 2em;
+  line-height: 1.5em;
   /* Set 1 unit of vertical rhythm on the top and bottom margins. */
   margin-top: 0.75em;
   margin-bottom: 0.75em;
+}
+
+/* line 221, ../scss/_normalize.scss */
+h2 {
+  font-size: 1.5em;
+  line-height: 2em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+/* line 227, ../scss/_normalize.scss */
+h3 {
+  font-size: 1.17em;
+  line-height: 1.28205em;
+  margin-top: 1.28205em;
+  margin-bottom: 1.28205em;
+}
+
+/* line 233, ../scss/_normalize.scss */
+h4 {
+  font-size: 1em;
+  line-height: 1.5em;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+
+/* line 239, ../scss/_normalize.scss */
+h5 {
+  font-size: 0.83em;
+  line-height: 1.80723em;
+  margin-top: 1.80723em;
+  margin-bottom: 1.80723em;
+}
+
+/* line 245, ../scss/_normalize.scss */
+h6 {
+  font-size: 0.67em;
+  line-height: 2.23881em;
+  margin-top: 2.23881em;
+  margin-bottom: 2.23881em;
 }
 
 /**
@@ -178,6 +250,7 @@ kbd,
 pre,
 samp {
   font-family: monospace, serif;
+  _font-family: 'courier new', monospace;
   font-size: 1em;
 }
 
@@ -186,7 +259,9 @@ samp {
  */
 /* line 319, ../scss/_normalize.scss */
 pre {
+  white-space: pre;
   white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
 /**
@@ -230,6 +305,42 @@ sub {
 /* ==========================================================================
    Lists
    ========================================================================== */
+/**
+ * Address margins set differently in IE 6/7.
+ */
+/* line 378, ../scss/_normalize.scss */
+dl,
+menu,
+ol,
+ul {
+  margin: 1.5em 0;
+}
+
+/* line 392, ../scss/_normalize.scss */
+dd {
+  margin: 0 0 0 40px;
+}
+
+/**
+ * Address paddings set differently in IE 6/7.
+ */
+/* line 402, ../scss/_normalize.scss */
+menu,
+ol,
+ul {
+  padding: 0 0 0 40px;
+}
+
+/**
+ * Correct list images handled incorrectly in IE 7.
+ */
+/* line 413, ../scss/_normalize.scss */
+nav ul,
+nav ol {
+  list-style: none;
+  list-style-image: none;
+}
+
 /* ==========================================================================
    Embedded content
    ========================================================================== */
@@ -239,6 +350,8 @@ sub {
 /* line 427, ../scss/_normalize.scss */
 img {
   border: 0;
+  /* Improve image quality when scaled in IE 7. */
+  -ms-interpolation-mode: bicubic;
 }
 
 /**
@@ -263,6 +376,14 @@ figure {
 /* ==========================================================================
    Forms
    ========================================================================== */
+/**
+ * Correct margin displayed oddly in IE 6/7.
+ */
+/* line 464, ../scss/_normalize.scss */
+form {
+  margin: 0;
+}
+
 /**
  * Define consistent border, margin, and padding.
  */
@@ -296,6 +417,8 @@ legend {
   /* 1 */
   padding: 0;
   /* 2 */
+  *margin-left: -7px;
+  /* 3 */
 }
 
 /**
@@ -315,6 +438,10 @@ textarea {
   /* 2 */
   margin: 0;
   /* 3 */
+  vertical-align: baseline;
+  /* 4 */
+  *vertical-align: middle;
+  /* 4 */
 }
 
 /**
@@ -357,6 +484,8 @@ input[type="submit"] {
   /* 2 */
   cursor: pointer;
   /* 3 */
+  *overflow: visible;
+  /* 4 */
 }
 
 /**
@@ -383,6 +512,10 @@ input[type="radio"] {
   /* 1 */
   padding: 0;
   /* 2 */
+  *height: 13px;
+  /* 3 */
+  *width: 13px;
+  /* 3 */
 }
 
 /**
@@ -611,25 +744,45 @@ div.board ul.top {
 }
 /* line 149, ../scss/_modules/_board.scss */
 div.board ul.top li {
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  -o-transform: rotate(180deg);
   transform: rotate(180deg);
 }
 /* line 153, ../scss/_modules/_board.scss */
 div.board ul.top li.top_left div.content {
+  -webkit-transform: rotate(315deg);
+  -moz-transform: rotate(315deg);
+  -ms-transform: rotate(315deg);
+  -o-transform: rotate(315deg);
   transform: rotate(315deg);
   margin-top: 30px;
 }
 /* line 160, ../scss/_modules/_board.scss */
 div.board ul.top li.top_right div.content {
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
   transform: rotate(45deg);
   margin-top: 30px;
 }
 /* line 171, ../scss/_modules/_board.scss */
 div.board ul.bottom li.bottom_left div.content {
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
   transform: rotate(45deg);
   margin-top: 22px;
 }
 /* line 178, ../scss/_modules/_board.scss */
 div.board ul.bottom li.bottom_right div.content {
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
   transform: rotate(-45deg);
   margin-top: 30px;
 }
@@ -643,6 +796,10 @@ div.board ul.left, div.board ul.right {
 div.board ul.left li, div.board ul.right li {
   float: none;
   width: 70px;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
   transform: rotate(90deg);
   height: 70px;
   width: 70px;
@@ -654,6 +811,10 @@ div.board ul.right {
 }
 /* line 205, ../scss/_modules/_board.scss */
 div.board ul.right li {
+  -webkit-transform: rotate(270deg);
+  -moz-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  -o-transform: rotate(270deg);
   transform: rotate(270deg);
 }
 /* line 212, ../scss/_modules/_board.scss */
@@ -674,6 +835,10 @@ div.board div.chance h1 {
 }
 /* line 226, ../scss/_modules/_board.scss */
 div.board div.chance {
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
   transform: rotate(-45deg);
   right: 100px;
   bottom: 160px;
@@ -681,6 +846,10 @@ div.board div.chance {
 }
 /* line 233, ../scss/_modules/_board.scss */
 div.board div.community_chest {
+  -webkit-transform: rotate(-225deg);
+  -moz-transform: rotate(-225deg);
+  -ms-transform: rotate(-225deg);
+  -o-transform: rotate(-225deg);
   transform: rotate(-225deg);
   top: 160px;
   left: 100px;
