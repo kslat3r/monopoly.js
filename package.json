@@ -14,7 +14,9 @@
     "passport-twitter": "*",
     "domain": "*",
     "express-validator": "*",
-    "async": "*"
+    "async": "*",
+    "connect-mongo": "*",
+    "mongoose": "*"
   },
   "engines": {
     "node": "0.10.x",

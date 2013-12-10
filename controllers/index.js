@@ -1,18 +1,13 @@
-var async = require('async');
-
-var TilesProvider = require('../providers/tiles.js').Provider;
-TilesProvider = new TilesProvider();
-
-var PiecesProvider = require('../providers/pieces.js').Provider;
-PiecesProvider = new PiecesProvider();
-
-var GamesProvider = require('../providers/games.js').Provider;
-GamesProvider = new GamesProvider();
+var async 		= require('async');
+var mongoose 	= require('mongoose');
+var Tile 		= mongoose.model('Tile');
+var Piece 		= mongoose.model('Piece');
+var Game 		= mongoose.model('Game');
 
 exports.index = function(req, res, callback) {
 	async.parallel([
 		function(callback) {
-			TilesProvider.list({position: 1}, function(err, Tiles) {
+			Tile.find({}).sort({position: 1}).exec(function(err, Tiles) {
 				if (err) {
   					callback(err, null);
   				}
@@ -22,7 +17,7 @@ exports.index = function(req, res, callback) {
   			});
 		},
 		function(callback) {
-			PiecesProvider.list({}, function(err, Pieces) {
+			Piece.find({}).sort({machine_name: 1}).exec(function(err, Pieces) {
 		  		if (err) {
 		  			callback(err, null);
 		  		}
@@ -42,18 +37,19 @@ exports.index = function(req, res, callback) {
 	  		var top 	= results[0].splice(0, 11);
 	  		var right 	= results[0].splice(0, 9);
 
-			res.render('index', {
+			res.render('game', {
 				title: 'MonopolyJs',
 				BottomTiles: bottom,
 				LeftTiles: left,
 				TopTiles: top,
 				RightTiles: right,
-				user: req.user,
+				User: req.user,
 				Pieces: results[1],
 				token: req.csrfToken(),
 				errors: req.errors != undefined ? req.errors : null,
 				num_players: req.body.num_players != undefined ? req.body.num_players : null,
 				your_piece: req.body.your_piece != undefined ? req.body.your_piece : null,
+				Game: null
 			});
 		}
 	});
@@ -70,7 +66,7 @@ exports.createGame = function(req, res, callback) {
 
     	async.waterfall([
     		function(callback) {
-	    		PiecesProvider.find({machine_name: req.body.your_piece}, function(err, Pieces) {
+	    		Piece.find({machine_name: req.body.your_piece}).exec(function(err, Pieces) {
 		    		if (err) {
 		    			callback(err, null);
 		    		}
@@ -92,20 +88,13 @@ exports.createGame = function(req, res, callback) {
 	    		//merge user with piece
 
 		    	var thisPlayer 		= req.user;
-		    	thisPlayer.Piece 	= Pieces[0].toObject();
+		    	thisPlayer.Piece 	= Pieces[0];
 
 		    	//create players array
 
 		    	var players = [];
-		    	for (i = 1; i <= req.body.num_players; i++) {
-		    		if (i == 1) {
-		    			players.push(thisPlayer);
-		    		}
-		    		else {
-		    			players.push({});
-		    		}
-		    	}
-
+	   			players.push(thisPlayer);
+	
 		    	//create game object
 
 		        var obj = {
@@ -117,14 +106,14 @@ exports.createGame = function(req, res, callback) {
 		        callback(null, obj);
 		    },
 		    function(obj, callback) {
-		    	GamesProvider.insert(obj, function(err, Games) {
-		        	if (err) {
+		    	Game.create(obj, function(err, Game) {
+		    		if (err) {
 		        		callback(err, null);
 		        	}
 		        	else {
-		        		res.redirect('/' + Games[0].get('_id'));
+		        		res.redirect('/games/' + Game.get('_id'));
 		        	}
-		        });
+		    	});		    	
 		    }
     	],
     	function(err, result) {
@@ -139,8 +128,4 @@ exports.createGame = function(req, res, callback) {
         req.errors = errors;
         exports.index(req, res, callback);
     }	
-}
-
-exports.game = function(req, res, callback) {
-	
 }

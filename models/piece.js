@@ -1,8 +1,18 @@
-var util 	= require('util');
-var Generic = require('./generic.js').Generic;
+var mongoose 	= require('mongoose');
+var Schema 		= mongoose.Schema;
 
-exports.Model = function(data) {
-	Generic.apply(this, ['pieces', data]);
-}
+var PieceSchema = new Schema({
+	name: {
+  		type: String
+ 	},
+ 	image: {
+ 		type: String
+ 	},
+ 	machine_name: {
+ 		type: String
+ 	},
+}, {
+	collection: 'pieces' 
+});
 
-util.inherits(exports.Model, Generic);
+mongoose.model('Piece', PieceSchema);

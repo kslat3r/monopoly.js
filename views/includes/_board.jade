@@ -1,0 +1,37 @@
+div.board
+	div.chance
+		h1 Chance
+	div.community_chest
+		h1 Community Chest
+	ul.bottom
+		each Tile, key in BottomTiles
+			li(class="#{key == 0 ? 'bottom_left ' + Tile.get('type') : key == (BottomTiles.length - 1) ? 'bottom_right ' + Tile.get('type') : Tile.get('type')}", id="#{Tile.get('machine_name')}")
+				span.colour(class="#{Tile.get('colour') != null ? Tile.get('colour') : Tile.get('type')} property-holder")
+				div.content						
+					span.title #{Tile.get('name')}
+					if Tile.get('price') != 0
+						span.price £#{Tile.get('price')}
+	ul.left
+		each Tile, key in LeftTiles
+			li(class="#{Tile.get('type')}", id="#{Tile.get('machine_name')}", id="#{Tile.get('machine_name')}")
+				span.colour(class="#{Tile.get('colour') != null ? Tile.get('colour') : Tile.get('type')}", id="#{Tile.get('machine_name')} property-holder")
+				div.content						
+					span.title #{Tile.get('name')}
+					if Tile.get('price') != 0
+						span.price £#{Tile.get('price')}
+	ul.top
+		each Tile, key in TopTiles
+			li(class="#{key == 0 ? 'top_left ' + Tile.get('type') : key == (TopTiles.length - 1) ? 'top_right ' + Tile.get('type') : Tile.get('type')}", id="#{Tile.get('machine_name')}")
+				span.colour(class="#{Tile.get('colour') != null ? Tile.get('colour') : Tile.get('type')} property-holder")
+				div.content
+					span.title #{Tile.get('name')}
+					if Tile.get('price') != 0
+						span.price £#{Tile.get('price')}
+	ul.right
+		each Tile, key in RightTiles
+			li(class="#{Tile.get('type')}", id="#{Tile.get('machine_name')}")
+				span.colour(class="#{Tile.get('colour') != null ? Tile.get('colour') : Tile.get('type')} property-holder")
+				div.content
+					span.title #{Tile.get('name')}
+					if Tile.get('price') != 0
+						span.price £#{Tile.get('price')}

@@ -1,0 +1,18 @@
+div.controls
+	h1 MonopolyJs
+	div.user
+		if User
+			include _logout
+		else			
+			include _login
+	if User					
+		div.game
+			if Game
+				if Game.get('players').length == Game.get('num_players')
+					div.you
+				else
+					div.waiting
+						h2 Waiting for more players (#{Game.get('num_players') - Game.get('players').length})
+			else
+				include _create_game
+					

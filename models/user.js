@@ -1,8 +1,10 @@
-var util 	= require('util');
-var Generic = require('./generic.js').Generic;
+var mongoose 	= require('mongoose');
+var Schema 		= mongoose.Schema;
 
-exports.Model = function(data) {
-	Generic.apply(this, ['users', data]);
-}
+var UserSchema = new Schema({
+	
+}, {
+	collection: 'users' 
+});
 
-util.inherits(exports.Model, Generic);
+mongoose.model('User', UserSchema);

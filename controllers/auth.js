@@ -2,8 +2,8 @@ var config 				= require('../config.js');
 var passport 			= require('passport');
 var FacebookStrategy 	= require('passport-facebook').Strategy;
 var TwitterStrategy		= require('passport-twitter').Strategy;
-var UsersProvider 		= require('../providers/user.js').Provider;
-UsersProvider 			= new UsersProvider();
+var mongoose 			= require('mongoose');
+var User 				= mongoose.model('User');
 
 //constructor
 
@@ -18,14 +18,14 @@ UsersProvider 			= new UsersProvider();
 			callbackURL: config.facebook.callback_url
 		}, 
 		function(accessToken, refreshToken, profile, done) {
-	  		UsersProvider.upsert({id: profile.id}, profile, function(err, User) {
-	  			if (err) {
+	  		User.findOneAndUpdate({id: profile.id}, profile, {upsert: true}, function(err, User) {
+  				if (err) {
 					done(err, null);
 				}
 				else {
-					done(null, User.toObject());
+					done(null, User);
 				}
-	  		});
+			});
 		}
 	));
 
@@ -38,30 +38,30 @@ UsersProvider 			= new UsersProvider();
 			callbackURL: config.twitter.callbackURL
 		},
 		function(token, tokenSecret, profile, done) {
-			UsersProvider.upsert({id: profile.id}, profile, function(err, User) {
-	  			if (err) {
+			User.findOneAndUpdate({id: profile.id}, profile, {upsert: true}, function(err, User) {
+  				if (err) {
 					done(err, null);
 				}
 				else {
-					done(null, User.toObject());
+					done(null, User);
 				}
-	  		});
+			});
 		}
 	));
 
 	//session handlers
 
-	passport.serializeUser(function(user, done) {
-		done(null, user._id.toString());
+	passport.serializeUser(function(User, done) {
+		done(null, User.get('_id').toString());
 	});
 
 	passport.deserializeUser(function(id, done) {
-		UsersProvider.findById(id, function(err, User) {
+		User.findById(id, function(err, User) {
 			if (err) {
 				done(err, null);
 			}
 			else {
-				done(null, User.toObject());
+				done(null, User);
 			}
 		});
 	});
