@@ -9,8 +9,8 @@ var GameSchema = new Schema({
  	num_players: {
  		type: Number
  	},
- 	players: [{
- 		type: Schema.ObjectId, 
+ 	_players: [{
+ 		type: Schema.Types.ObjectId, 
  		ref : 'User'
  	}]
 }, {
@@ -19,10 +19,10 @@ var GameSchema = new Schema({
 
 GameSchema.methods = {
 	addUser: function(User, callback) {
-		var currentPlayers = this.get('players');
+		var currentPlayers = this.get('_players');
 
 		for (var i in currentPlayers) {
-			if (currentPlayers[i] == User.get('_id').toString()) {
+			if (currentPlayers[i].get('_id').toString() == User.get('_id').toString()) {
 				callback(null, this);
 				return;
 			}

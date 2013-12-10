@@ -16,13 +16,13 @@ exports.index = function(req, res, callback) {
   			});
 		},
 		function(callback) {
-			Game.findById(req.params.id, function(err, Game) {
+			Game.findById(req.params.id).populate('_players').exec(function(err, Game) {
 		  		if (err) {
 		  			callback(err, null);
 		  		}
 		  		else {
 		  			if (req.user != undefined) {
-			  			Game.addUser(req.user, function(err, Game) {
+			  			Game.addUser(req.user, function(err, Game) {			  				
 			  				if (err) {
 			  					callback(err, null);
 			  				}
