@@ -2,6 +2,19 @@ var moment 		= require('moment');
 var mongoose 	= require('mongoose');
 var Game 		= mongoose.model('Game');
 
+var testForSession = function(req, errors) {
+	errors = errors || [];
+
+	if (req.user === undefined) {
+		errors.push({
+			param: 'user',
+			msg: 'Valid user session is required'
+		});
+	}
+
+	return errors.length ? errors : null;
+}
+
 exports.list = function(req, res, callback) {
 	if (req.user) {
         Game.find({_players: req.user.get('_id')}).populate('_players').sort({created_date_microtime: -1}).exec(function(err, Games) {
@@ -19,10 +32,11 @@ exports.list = function(req, res, callback) {
 };
 
 exports.post = function(req, res, callback) {
-	req.assert('user', 'A valid user session is required').notEmpty();
 	req.assert('name', 'Name is required').notEmpty();
     req.assert('num_players', 'Number of players is required').notEmpty();
-    var errors = req.validationErrors();
+    
+    var errors 	= req.validationErrors();
+    errors 		= testForSession(req, errors);
 
     if (!errors) {
                            
