@@ -19,6 +19,7 @@ exports.list = function(req, res, callback) {
 };
 
 exports.post = function(req, res, callback) {
+	req.assert('user', 'A valid user session is required').notEmpty();
 	req.assert('name', 'Name is required').notEmpty();
     req.assert('num_players', 'Number of players is required').notEmpty();
     var errors = req.validationErrors();
@@ -51,7 +52,7 @@ exports.post = function(req, res, callback) {
         });                         
     }
     else {
-        res.send(errors);        
+        res.send({errors: errors});
     }        
 };
 

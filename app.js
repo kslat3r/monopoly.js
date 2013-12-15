@@ -72,8 +72,18 @@ app.configure(function() {
 	//error handling
 
 	app.use(function(err, req, res, callback) {
-		console.log(err.stack);		
-		res.json({errorCode: (err.http_code != undefined ? err.http_code : '500'), errorMsg: err.message});
+		console.log(err.stack);
+
+		var obj = {
+			errors: [
+				{
+					msg: err.message,
+					code: err.http_code != undefined ? err.http_code : '500'
+				}
+			]
+		};
+
+		res.send(obj);
 	});
 });
 
