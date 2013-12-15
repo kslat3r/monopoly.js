@@ -1,6 +1,6 @@
 var auth		= require('./controllers/auth.js');
 var index 		= require('./controllers/index.js');
-var games 		= require('./controllers/games.js');
+var games 		= require('./controllers/api/games.js');
 var dice 		= require('./controllers/api/dice.js');
 
 exports.create = function(app) {
@@ -18,12 +18,14 @@ exports.create = function(app) {
 	//web
 
 	app.get('/', index.index);
-	app.post('/', index.createGame);
-
-	app.get('/games', games.index);
-	app.get('/games/:id', games.game);
 
 	//api
 
 	app.get('/api/dice', dice.roll);
+	
+	app.get('/api/games', games.list);
+	app.post('/api/games', games.post);
+	app.get('/api/games/:id', games.get);
+	app.put('/api/games/:id', games.put);
+	app.delete('/api/games/:id', games.delete);
 };

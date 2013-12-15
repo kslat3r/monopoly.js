@@ -1,8 +1,12 @@
 doctype 5
-html
+html(ng-app="MonopolyJs")
 	head
 		title #{title}
-		link(rel='stylesheet', href='/css/screen.css')
+		link(rel='stylesheet', href='/css/screen.css')		
+		script(type="text/javascript", src="/js/components/angular/angular.min.js")
+		script(type="text/javascript", src="/js/app/app.js")
+		script(type="text/javascript", src="/js/app/services/games.js")
+		script(type="text/javascript", src="/js/app/controllers/games.js")		
 	body		
 		div.container
 			block content			

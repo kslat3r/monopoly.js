@@ -3,18 +3,18 @@ div.controls
 		a(href="/") MonopolyJs
 	div.user
 		if User
-			include _logout
+			include auth/_logout
 		else			
-			include _login
+			include auth/_login
 	if User					
-		div.game
-			if Game
+		if Game
+			div.game
 				if Game.get('_players').length == Game.get('num_players')
 					div.you
 				else
 					div.waiting
 						h2 Waiting for more players (#{Game.get('num_players') - Game.get('_players').length})
-			else
-				include _games
-				include _create_game
+		else			
+			include games/_list
+			include games/_create
 					

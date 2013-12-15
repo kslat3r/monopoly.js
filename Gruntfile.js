@@ -16,7 +16,7 @@ module.exports = function(grunt) {
                 options: {
                     livereload: 35729
                 },
-                files: ['public/css/screen.css', 'views/**/*.jade', 'public/js/**/*']
+                files: ['public/css/screen.css']
             },
             styles: {
                 files: ['public/scss/**/*.scss'],

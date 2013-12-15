@@ -574,20 +574,19 @@ body {
   padding: 0;
   margin: 0;
   background-color: #fff;
-  overflow-y: hidden;
 }
-/* line 7, ../scss/_elements.scss */
+/* line 6, ../scss/_elements.scss */
 body div.clear {
   width: 100%;
   height: 1px;
   clear: both;
 }
-/* line 13, ../scss/_elements.scss */
+/* line 12, ../scss/_elements.scss */
 body ul {
   margin: 0;
   padding: 0;
 }
-/* line 17, ../scss/_elements.scss */
+/* line 16, ../scss/_elements.scss */
 body ul li {
   margin: 0;
   padding: 0;

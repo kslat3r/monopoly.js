@@ -61,10 +61,6 @@ app.configure(function() {
 	app.use(passport.initialize());
 	app.use(passport.session());
 
-	//csrf protection
-
-	app.use(express.csrf());
-
 	//validation
 
 	app.use(validator());
