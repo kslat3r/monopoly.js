@@ -9,7 +9,7 @@ div(class="games_controls", ng-controller="games")
 			li(ng-show="games.length === 0")
 				em No active games
 			li(ng-show="games === undefined")
-				em Loading
+				em Loading...
 	div.create
 		h2 Create new game
 		form(name="createGameForm", ng-submit="submit()")
