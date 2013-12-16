@@ -4,9 +4,11 @@ html(ng-app="MonopolyJs")
 		title #{title}
 		link(rel='stylesheet', href='/css/screen.css')		
 		script(type="text/javascript", src="/js/components/angular/angular.min.js")
+		script(type="text/javascript", src="/js/components/angular-ui-router/release/angular-ui-router.min.js")
 		script(type="text/javascript", src="/js/app/app.js")
 		script(type="text/javascript", src="/js/app/services/games.js")
-		script(type="text/javascript", src="/js/app/controllers/games.js")		
+		script(type="text/javascript", src="/js/app/controllers/game.js")
+		script(type="text/javascript", src="/js/app/controllers/games.js")
 	body		
 		div.container
 			block content			

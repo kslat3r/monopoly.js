@@ -1,9 +1,0 @@
-div.list
-	h2 Current games	
-	ul(ng-controller="games.list")		
-		li(ng-repeat="game in games")
-			span
-				a(href="/#/{{game._id}}") {{game.name}}
-				&nbsp;&dash; {{game.created_date}}
-		li(ng-show="!games.length")
-			em No active games

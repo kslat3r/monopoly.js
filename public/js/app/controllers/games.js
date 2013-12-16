@@ -1,20 +1,14 @@
 'use strict';
 
-MonopolyJs.controller('games.list', ['$scope', 'GamesService', '$rootScope', function($scope, GamesService, $rootScope) {
-	function listGames() {
+MonopolyJs.controller('games', ['$scope', 'GamesService', function($scope, GamesService) {
+	function getGamesList() {
 		GamesService.list(function(games) {
 			$scope.games = games;
-		});	
+		});
 	}
 
-	$rootScope.$on('gameCreated', function() {
-		listGames();
-	});
+	getGamesList();
 
-	listGames();
-}]);
-
-MonopolyJs.controller('games.create', ['$scope', 'GamesService', '$rootScope', function($scope, GamesService, $rootScope) {
 	$scope.submit = function() {		
 		var data = {
 			name: $scope.name !== undefined ? $scope.name : '',
@@ -23,7 +17,7 @@ MonopolyJs.controller('games.create', ['$scope', 'GamesService', '$rootScope', f
 
 		GamesService.post(data, function(data) {
 			if (data.errors === undefined) {
-				$rootScope.$emit('gameCreated');
+				getGamesList();
 
 				$scope.createGameForm.$setPristine();
 				$scope.errors = $scope.name = $scope.num_players = undefined;				

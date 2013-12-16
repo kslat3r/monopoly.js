@@ -4,6 +4,7 @@
   "dependencies": {
     "jquery": "*",
     "angular": "*",
-    "modernizr": "*"
+    "modernizr": "*",
+    "angular-ui-router": "*"
   }
 }

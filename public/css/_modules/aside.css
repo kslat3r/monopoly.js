@@ -1,0 +1,24 @@
+/* line 2, ../../scss/_modules/aside.scss */
+div.aside div.logout {
+  top: 10px;
+  right: 10px;
+  position: absolute;
+}
+/* line 9, ../../scss/_modules/aside.scss */
+div.aside h1,
+div.aside h2 {
+  width: auto;
+}
+/* line 13, ../../scss/_modules/aside.scss */
+div.aside h1 {
+  font-size: 130%;
+  margin-top: 0;
+}
+/* line 18, ../../scss/_modules/aside.scss */
+div.aside h2 {
+  font-size: 120%;
+}
+/* line 22, ../../scss/_modules/aside.scss */
+div.aside ul {
+  margin-left: 30px;
+}
