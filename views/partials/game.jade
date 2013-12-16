@@ -1,4 +1,6 @@
 div(ng-controller="game")
-	h2(ng-hide="game.name === undefined") {{game.name}}
-	h2(ng-show="game.name === undefined")
+	h2(ng-hide="game._id === undefined") {{game.name}}
+	h2(ng-show="game._id === undefined")
 		em Loading...
+	div.game(ng-hide="game._id === undefined")
+		p Game information
