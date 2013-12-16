@@ -21,7 +21,8 @@ MonopolyJs.config(['$stateProvider', '$urlRouterProvider', function($stateProvid
 			"auth": { templateUrl: "/partials/auth" },
 			"game": { templateUrl: "/partials/game" },
 			"gameControls": { templateUrl: "/partials/gameControls" }
-  		}
+  		},
+  		controller: 'game'
 	});
 
 	$urlRouterProvider.otherwise('/');

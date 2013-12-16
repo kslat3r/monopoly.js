@@ -71,7 +71,24 @@ exports.post = function(req, res, callback) {
 };
 
 exports.get = function(req, res, callback) {
-
+    if (req.user) {
+        Game.findOne({_id: req.params.id, _players: req.user.get('_id')}).populate('_players').exec(function(err, Game) {
+            if (err) {
+                callback(err, null);
+            }
+            else {
+                if (Game !== null) {
+                    res.send(Game);
+                }
+                else {
+                    res.send({});
+                }
+            }
+        });
+    }
+    else {
+        res.send({});
+    }
 }
 
 exports.put = function(req, res, callback) {

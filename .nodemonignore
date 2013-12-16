@@ -1,2 +1,3 @@
 /node_modules/*     # ignore all external submodules
 /public/*     		# static files
+/views/*			# view files

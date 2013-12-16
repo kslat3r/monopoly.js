@@ -1,1 +1,4 @@
-h3 Waiting for other players
+div(ng-controller="game")
+	h2(ng-hide="game.name === undefined") {{game.name}}
+	h2(ng-show="game.name === undefined")
+		em Loading...

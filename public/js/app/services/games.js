@@ -6,6 +6,12 @@ MonopolyJs.service('GamesService', function($http) {
 			});
 		},
 
+		get: function(id, callback) {
+			return $http.get('/api/games/' + id).success(function(game) {
+				callback(game);
+			});
+		},
+
 		post: function(data, callback) {
 			return $http.post('/api/games', data).success(function(game) {
 				callback(game);
