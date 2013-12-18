@@ -17,7 +17,15 @@ var GameSchema = new Schema({
  		userId: String,
  		name: String,
  		friendlyName: String,
- 		avatarUrl: String
+ 		avatarUrl: String,
+ 		position: Number,
+ 		money: Number,
+ 		properties: [{
+
+ 		}],
+ 		goojf: [{
+
+ 		}]
  	}],
  	_playersRef: [{
  		type: Schema.Types.ObjectId, 
@@ -28,7 +36,13 @@ var GameSchema = new Schema({
  	},
  	created_date_microtime: {
  		type: Number
- 	}
+ 	},
+ 	tiles: [{
+ 		
+ 	}],
+ 	moves: [{
+ 		
+ 	}]
 }, {
 	collection: 'games'
 });
@@ -37,23 +51,33 @@ var GameSchema = new Schema({
 GameSchema.statics = {
 	
 	letsGo: function(req, callback) {
-		var obj = {
-			num_players: req.body.num_players,
-	        _players: [],
-	        started: false,
-	        name: req.body.name,
-	        created_date: moment().format('D/M/YY HH:mm'),
-	        created_date_microtime: (new Date).getTime()
-	    };
+		var self = this;
 
-        this.create(obj, function(err, Game) {
-        	if (err) {
-            	callback(err, null);
-            }
-            else {
-            	callback(null, Game);
-            }
-        });
+		mongoose.model('Tile').find({}).sort({position: 1}).exec(function(err, Tiles) {
+			if (err) {
+				callback(err, null);
+			}
+			else {
+				var obj = {
+					num_players: req.body.num_players,
+			        _players: [],
+			        started: false,
+			        name: req.body.name,
+			        created_date: moment().format('D/M/YY HH:mm'),
+			        created_date_microtime: (new Date).getTime(),
+			        tiles: Tiles
+			    };
+
+		        self.create(obj, function(err, Game) {
+		        	if (err) {
+		            	callback(err, null);
+		            }
+		            else {
+		            	callback(null, Game);
+		            }
+		        });
+			}
+		});
 	}
 };
 
@@ -83,22 +107,24 @@ GameSchema.methods = {
 			//create new object
 
 			var newPlayer = {
-				userId: User._id.toString()
+				userId: User._id.toString(),
+				position: 0,
+				money: 1500
 			};
 
 			//switch on provider
 
 			if (User.get('provider') == 'twitter') {
-				newPlayer.name 			= User.get('displayName');
-				newPlayer.friendlyName	= User.get('displayName').split(' ')[0];
+				newPlayer.name 			= User.get('data').displayName;
+				newPlayer.friendlyName	= User.get('data').displayName.split(' ')[0];
 
-				var photos			= User.get('photos');
+				var photos			= User.get('data').photos;
 				newPlayer.avatarUrl	= photos[0].value;			
 			}
 			else if (User.get('provider') == 'facebook') {
-				newPlayer.name 			= User.get('displayName');
-				newPlayer.friendlyName	= User.get('name').givenName;
-				newPlayer.avatarUrl		= 'http://graph.facebook.com/' + User.get('username') + '/picture?type=square';
+				newPlayer.name 			= User.get('data').displayName;
+				newPlayer.friendlyName	= User.get('data').name.givenName;
+				newPlayer.avatarUrl		= 'http://graph.facebook.com/' + User.get('data').username + '/picture?type=square';
 			}
 
 			//set on model

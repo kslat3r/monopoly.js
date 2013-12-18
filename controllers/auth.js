@@ -18,7 +18,13 @@ var User 				= mongoose.model('User');
 			callbackURL: config.facebook.callback_url
 		}, 
 		function(accessToken, refreshToken, profile, done) {
-	  		User.findOneAndUpdate({id: profile.id}, profile, {upsert: true}, function(err, User) {
+			var obj = {
+				providerId: profile.id,
+				data: profile,
+				provider: 'facebook'	
+			};
+
+	  		User.findOneAndUpdate({providerId: profile.id, provider: 'facebook'}, obj, {upsert: true, new: true}, function(err, User) {
   				if (err) {
 					done(err, null);
 				}
@@ -38,7 +44,13 @@ var User 				= mongoose.model('User');
 			callbackURL: config.twitter.callbackURL
 		},
 		function(token, tokenSecret, profile, done) {
-			User.findOneAndUpdate({id: profile.id}, profile, {upsert: true}, function(err, User) {
+			var obj = {
+				providerId: profile.id,
+				data: profile,
+				provider: 'twitter'	
+			};
+
+			User.findOneAndUpdate({providerId: profile.id, provider: 'twitter'}, obj, {upsert: true, new: true}, function(err, User) {
   				if (err) {
 					done(err, null);
 				}
