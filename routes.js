@@ -28,8 +28,8 @@ exports.create = function(app) {
 	app.get('/partials/title', partials.title);
 	app.get('/partials/auth', partials.auth);
 	app.get('/partials/game', partials.game);
-	app.get('/partials/gamesControls', partials.gamesControls);
-	app.get('/partials/gameControls', partials.gameControls);	
+	app.get('/partials/gamesControl', partials.gamesControl);
+	app.get('/partials/gameControl', partials.gameControl);
 
 	//api
 

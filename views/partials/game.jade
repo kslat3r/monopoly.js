@@ -3,4 +3,10 @@ div(ng-controller="game")
 	h2(ng-show="game._id === undefined")
 		em Loading...
 	div.game(ng-hide="game._id === undefined")
-		p Game information
+		div(ng-if="!game.started")
+			em Waiting for other players to join
+		div(ng-if="game.started")
+			ul		
+				li(ng-repeat="player in game.players") 
+					img(src="{{player.avatarUrl}}" alt="{{player.name}}")
+					span {{player.friendlyName}}

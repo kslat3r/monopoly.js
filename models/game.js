@@ -13,7 +13,13 @@ var GameSchema = new Schema({
  	num_players: {
  		type: Number
  	},
- 	_players: [{
+ 	players: [{
+ 		userId: String,
+ 		name: String,
+ 		friendlyName: String,
+ 		avatarUrl: String
+ 	}],
+ 	_playersRef: [{
  		type: Schema.Types.ObjectId, 
  		ref : 'User'
  	}],
@@ -27,26 +33,98 @@ var GameSchema = new Schema({
 	collection: 'games'
 });
 
+
+GameSchema.statics = {
+	
+	letsGo: function(req, callback) {
+		var obj = {
+			num_players: req.body.num_players,
+	        _players: [],
+	        started: false,
+	        name: req.body.name,
+	        created_date: moment().format('D/M/YY HH:mm'),
+	        created_date_microtime: (new Date).getTime()
+	    };
+
+        this.create(obj, function(err, Game) {
+        	if (err) {
+            	callback(err, null);
+            }
+            else {
+            	callback(null, Game);
+            }
+        });
+	}
+};
+
+
 GameSchema.methods = {
 	
-	addUser: function(User, callback) {
-		var currentPlayers = this.get('_players');
-
-		if (currentPlayers.length > 0) {
-			for (var i in currentPlayers) {
-				if (currentPlayers[i]._id == User.get('_id').toString()) {
-					callback(null, this);
-					return;
+	checkPlayerExists: function(User) {
+		if (this.players.length > 0) {
+			for (var i in this.players) {
+				if (this.players[i].userId == User.get('_id').toString()) {
+					return true;
 				}
 			}
 		}
-		
-		currentPlayers.push(User.get('_id'));
-		this.players = currentPlayers;
-		this.save();
 
-		callback(null, this); 
+		return false;
+	},
+
+	addOnlyNewPlayer: function(User, callback) {
+		if (!this.checkPlayerExists(User)) {		
+		
+			//use get - User has been lazy loaded by reference
+
+			var currentPlayers 	= this.get('players');
+			var _playersRef 	= this.get('_playersRef');
+
+			//create new object
+
+			var newPlayer = {
+				userId: User._id.toString()
+			};
+
+			//switch on provider
+
+			if (User.get('provider') == 'twitter') {
+				newPlayer.name 			= User.get('displayName');
+				newPlayer.friendlyName	= User.get('displayName').split(' ')[0];
+
+				var photos			= User.get('photos');
+				newPlayer.avatarUrl	= photos[0].value;			
+			}
+			else if (User.get('provider') == 'facebook') {
+				newPlayer.name 			= User.get('displayName');
+				newPlayer.friendlyName	= User.get('name').givenName;
+				newPlayer.avatarUrl		= 'http://graph.facebook.com/' + User.get('username') + '/picture?type=square';
+			}
+
+			//set on model
+
+			currentPlayers.push(newPlayer);
+			_playersRef.push(User._id.toString());
+
+			this.players 		= currentPlayers;
+			this._playersRef	= _playersRef;
+
+			//save and callback
+
+			var self = this;
+			this.save(function(err) {
+				if (err) {
+					callback(err, null);
+				}
+				else {
+					callback(null, self);
+				}
+			});			
+		}
+		else {
+			callback(null, this);
+		}
 	}
-}
+};
 
 mongoose.model('Game', GameSchema);

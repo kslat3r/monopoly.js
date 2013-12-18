@@ -10,7 +10,7 @@ MonopolyJs.config(['$stateProvider', '$urlRouterProvider', function($stateProvid
 			"board": { templateUrl: "/partials/board" },
 			"title": { templateUrl: "/partials/title" },
 			"auth": { templateUrl: "/partials/auth" },
-			"gamesControls": { templateUrl: "/partials/gamesControls" }
+			"gamesControl": { templateUrl: "/partials/gamesControl" }
   		}
 	})
 	.state('game', {
@@ -20,7 +20,7 @@ MonopolyJs.config(['$stateProvider', '$urlRouterProvider', function($stateProvid
 			"title": { templateUrl: "/partials/title" },
 			"auth": { templateUrl: "/partials/auth" },
 			"game": { templateUrl: "/partials/game" },
-			"gameControls": { templateUrl: "/partials/gameControls" }
+			"gameControl": { templateUrl: "/partials/gameControl" }
   		},
   		controller: 'game'
 	});

@@ -1,4 +1,4 @@
-var moment 		= require('moment');
+var async       = require('async');
 var mongoose 	= require('mongoose');
 var Game 		= mongoose.model('Game');
 
@@ -17,7 +17,7 @@ var testForSession = function(req, errors) {
 
 exports.list = function(req, res, callback) {
 	if (req.user) {
-        Game.find({_players: req.user.get('_id')}).populate('_players').sort({created_date_microtime: -1}).exec(function(err, Games) {
+        Game.find({_playersRef: req.user.get('_id')}).populate('_playersRef').sort({created_date_microtime: -1}).exec(function(err, Games) {
     		if (err) {
     			callback(err, null);
     		}
@@ -32,63 +32,137 @@ exports.list = function(req, res, callback) {
 };
 
 exports.post = function(req, res, callback) {
-	req.assert('name', 'Name is required').notEmpty();
-    req.assert('num_players', 'Number of players is required').notEmpty();
-    
-    var errors 	= req.validationErrors();
-    errors 		= testForSession(req, errors);
+    async.waterfall([
+        function(callback) {
+            var errors = testForSession(req);
 
-    if (!errors) {
-                           
-	    //create players array
-
-		var players = [];
-		players.push(req.user);
-
-		//create game object
-
-	    var obj = {
-			num_players: req.body.num_players,
-	        _players: players,
-	        started: false,
-	        name: req.body.name,
-	        created_date: moment().format('D/M/YY HH:mm'),
-	        created_date_microtime: (new Date).getTime()
-	    };
-
-        Game.create(obj, function(err, Game) {
-        	if (err) {
-            	callback(err, null);
+            if (errors === null) {
+                callback(null, null);
             }
             else {
-            	res.send(Game);
+                res.send({errors: errors});
             }
-        });                         
-    }
-    else {
-        res.send({errors: errors});
-    }        
+        },
+        function(v, callback) {
+
+            //check post for errors
+
+        	req.assert('name', 'Name is required').notEmpty();
+            req.assert('num_players', 'Number of players is required').notEmpty();
+            
+            var errors 	= req.validationErrors();
+            errors 		= testForSession(req, errors);
+
+            if (!errors) {                                   
+        	    Game.letsGo(req, function(err, Game) {
+                	if (err) {
+                    	callback(err, null);
+                    }
+                    else {
+                    	callback(null, Game);
+                    }
+                });                         
+            }
+            else {
+                res.send({errors: errors});
+            }
+        },
+        function(Game, callback) {
+
+            //add current user to game
+
+            Game.addOnlyNewPlayer(req.user, function(err, Game) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    callback(null, Game);
+                }
+            });
+        }
+    ],
+    function(err, Game) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            res.send(Game);
+        }
+    });
 };
 
 exports.get = function(req, res, callback) {
-    if (req.user) {
-        Game.findOne({_id: req.params.id, _players: req.user.get('_id')}).populate('_players').exec(function(err, Game) {
-            if (err) {
-                callback(err, null);
+    async.waterfall([
+        function(callback) {
+
+            //attempt to find game if user logged in
+
+            if (req.user) {
+                Game.findOne({_id: req.params.id}).exec(function(err, Game) {
+                    if (err) {
+                        callback(err, null);
+                    }
+                    else {
+                        if (Game === null) {
+                            res.send({});
+                        }
+                        else {
+                            callback(null, Game);
+                        }
+                    }
+                });
             }
             else {
-                if (Game !== null) {
-                    res.send(Game);
-                }
-                else {
-                    res.send({});
-                }
+                res.send({});
             }
-        });
-    }
-    else {
-        res.send({});
-    }
+        },
+        function(Game, callback) {
+
+            //does this player need adding to the game?
+
+            if (Game.num_players !== Game.players.length) {
+                Game.addOnlyNewPlayer(req.user, function(err, Game) {
+                    if (err) {
+                        callback(err, null);
+                    }
+                    else {
+                        callback(null, Game);
+                    }
+                });
+            }
+            else {
+                callback(null, Game);
+            }
+        },
+        function(Game, callback) {
+
+            //has the game now started?
+
+            if (Game.num_players === Game.players.length && Game.started == false) {
+                Game.started = true;
+
+                Game.save(function(err) {
+                    if (err) {
+                        callback(err, null);
+                    }
+                    else {
+                        callback(null, Game);
+                    }
+                })
+            }
+            else {
+                callback(null, Game);
+            }
+        }
+    ], 
+    function(err, Game) {
+        if (err) {
+            callback(err, null);
+        }
+        else {
+            res.send(Game);
+        }
+    });
 }
 
 exports.put = function(req, res, callback) {

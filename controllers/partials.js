@@ -43,18 +43,18 @@ exports.game = function(req, res, callback) {
 	}
 };
 
-exports.gamesControls = function(req, res, callback) {
+exports.gamesControl = function(req, res, callback) {
 	if (req.user) {
-		res.render('partials/gamesControls');
+		res.render('partials/gamesControl');
 	}
 	else {
 		res.send('');
 	}	
 };
 
-exports.gameControls = function(req, res, callback) {
+exports.gameControl = function(req, res, callback) {
 	if (req.user) {
-		res.render('partials/gameControls');
+		res.render('partials/gameControl');
 	}
 	else {
 		res.send('');
