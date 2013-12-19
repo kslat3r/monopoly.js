@@ -1,4 +1,4 @@
-MonopolyJs.controller('board', ['$scope', '$rootScope', '$stateParams', function($scope, $rootScope, $stateParams) {
+MonopolyJs.controller('info', ['$scope', '$rootScope', '$stateParams', function($scope, $rootScope, $stateParams) {
 	if ($stateParams.id !== undefined) {
 
 		//get game when loaded event fired

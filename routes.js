@@ -5,6 +5,7 @@ var partials	= require('./controllers/partials.js');
 
 var diceApi		= require('./controllers/api/dice.js');
 var gamesApi	= require('./controllers/api/games.js');
+var usersApi	= require('./controllers/api/users.js');
 
 exports.create = function(app) {
 	
@@ -27,9 +28,9 @@ exports.create = function(app) {
 	app.get('/partials/board', partials.board);
 	app.get('/partials/title', partials.title);
 	app.get('/partials/auth', partials.auth);
+	app.get('/partials/info', partials.info);
+	app.get('/partials/games', partials.games);
 	app.get('/partials/game', partials.game);
-	app.get('/partials/gamesControl', partials.gamesControl);
-	app.get('/partials/gameControl', partials.gameControl);
 
 	//api
 
@@ -40,4 +41,6 @@ exports.create = function(app) {
 	app.get('/api/games/:id', gamesApi.get);
 	app.put('/api/games/:id', gamesApi.put);
 	app.delete('/api/games/:id', gamesApi.delete);
+
+	app.get('/api/users/:id', usersApi.get);
 };

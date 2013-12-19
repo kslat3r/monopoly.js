@@ -1,9 +1,13 @@
-MonopolyJs.controller('game', ['$scope', '$rootScope', '$stateParams', 'GamesService', function($scope, $rootScope, $stateParams, GamesService) {
-	var refreshGameInterval;
+MonopolyJs.controller('game', ['$scope', '$rootScope', '$stateParams', 'GamesService', 'UsersService', function($scope, $rootScope, $stateParams, GamesService, UsersService) {
+	this.interval 		= null;
+	this.refreshTimeout = 5000;
 
-	function getGame(id) {
+	this.getGame = function(id) {
+		var self = this;
+
 		GamesService.get(id, function(Game) {
 			$scope.Game = Game;
+			$rootScope.$emit('gameLoaded', $scope.Game);
 
 			//redirect if no game object
 
@@ -11,19 +15,54 @@ MonopolyJs.controller('game', ['$scope', '$rootScope', '$stateParams', 'GamesSer
 				window.location = '/#/';
 			}
 
-			//retry api call if not all players are ready
+			//clear timeout if it's my turn
 
-			if ($scope.Game.num_players !== $scope.Game.players.length) {
-				refreshGameInterval = setTimeout(function() {
-					getGame(id)
-				}, 5000);
+			if ($scope.isItMyTurn()) {
+				self.clearAutoRefresh();
 			}
-			else {
-				clearTimeout(refreshGameInterval);
-				$rootScope.$emit('gameLoaded', $scope.Game);
-			}
+		});			
+	};
+
+	this.getUser = function() {
+		UsersService.get('me', function(User) {
+			$scope.User = User;
+			$rootScope.$emit('userLoaded', $scope.User);
 		});
+	};
+
+	this.autoRefresh = function() {
+		var self = this;
+
+		this.interval = setInterval(function() {
+			self.getGame($stateParams.id);
+		}, this.refreshTimeout);	
+	};
+
+	this.clearAutoRefresh = function() {
+		clearTimeout(this.interval);
 	}
 
-	getGame($stateParams.id);
+	$scope.isItMyTurn = function() {
+		if ($scope.Game !== undefined && $scope.User !== undefined) {
+			if ($scope.Game.players[$scope.Game.currentPlayer].userId === $scope.User._id.toString()) {
+				return true;
+			}
+		}
+
+		return false;
+	};
+
+	$scope.getCurrentPlayerFriendlyName = function() {
+		if ($scope.Game !== undefined) {
+			return $scope.Game.players[$scope.Game.currentPlayer].friendlyName;
+		}
+
+		return null;
+	};
+
+	//init
+
+	this.getUser();
+	this.getGame($stateParams.id);
+	this.autoRefresh();
 }]);

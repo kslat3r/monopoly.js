@@ -34,27 +34,27 @@ exports.auth = function(req, res, callback) {
 	});
 };
 
-exports.game = function(req, res, callback) {
+exports.info = function(req, res, callback) {
 	if (req.user) {
-		res.render('partials/game');
+		res.render('partials/info');
 	}
 	else {
 		res.send('');
 	}
 };
 
-exports.gamesControl = function(req, res, callback) {
+exports.games = function(req, res, callback) {
 	if (req.user) {
-		res.render('partials/gamesControl');
+		res.render('partials/games');
 	}
 	else {
 		res.send('');
 	}	
 };
 
-exports.gameControl = function(req, res, callback) {
+exports.game = function(req, res, callback) {
 	if (req.user) {
-		res.render('partials/gameControl');
+		res.render('partials/game');
 	}
 	else {
 		res.send('');

@@ -762,17 +762,54 @@ div.board ul li div.content {
   padding-left: 3%;
   padding-right: 3%;
 }
-/* line 140, ../scss/_modules/_board.scss */
+/* line 139, ../scss/_modules/_board.scss */
+div.board ul li ul.players li {
+  border: 0;
+  height: 24px;
+  width: 24px;
+  position: absolute;
+}
+/* line 145, ../scss/_modules/_board.scss */
+div.board ul li ul.players li img {
+  height: 24px;
+  width: 24px;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+  border-radius: 12px;
+}
+/* line 151, ../scss/_modules/_board.scss */
+div.board ul li ul.players li:first-child {
+  top: 13px;
+  left: 5px;
+}
+/* line 156, ../scss/_modules/_board.scss */
+div.board ul li ul.players li:nth-child(2) {
+  top: 13px;
+  right: 5px;
+}
+/* line 161, ../scss/_modules/_board.scss */
+div.board ul li ul.players li:nth-child(3) {
+  bottom: 5px;
+  left: 5px;
+}
+/* line 166, ../scss/_modules/_board.scss */
+div.board ul li ul.players li:nth-child(4) {
+  bottom: 5px;
+  right: 5px;
+}
+/* line 175, ../scss/_modules/_board.scss */
 div.board ul.bottom, div.board ul.top {
   position: absolute;
   bottom: 0;
 }
-/* line 145, ../scss/_modules/_board.scss */
+/* line 180, ../scss/_modules/_board.scss */
 div.board ul.top {
   bottom: auto;
   top: 0;
 }
-/* line 149, ../scss/_modules/_board.scss */
+/* line 184, ../scss/_modules/_board.scss */
 div.board ul.top li {
   -webkit-transform: rotate(180deg);
   -moz-transform: rotate(180deg);
@@ -780,7 +817,7 @@ div.board ul.top li {
   -o-transform: rotate(180deg);
   transform: rotate(180deg);
 }
-/* line 153, ../scss/_modules/_board.scss */
+/* line 188, ../scss/_modules/_board.scss */
 div.board ul.top li.top_left div.content {
   -webkit-transform: rotate(315deg);
   -moz-transform: rotate(315deg);
@@ -789,7 +826,7 @@ div.board ul.top li.top_left div.content {
   transform: rotate(315deg);
   margin-top: 30px;
 }
-/* line 160, ../scss/_modules/_board.scss */
+/* line 195, ../scss/_modules/_board.scss */
 div.board ul.top li.top_right div.content {
   -webkit-transform: rotate(45deg);
   -moz-transform: rotate(45deg);
@@ -798,7 +835,7 @@ div.board ul.top li.top_right div.content {
   transform: rotate(45deg);
   margin-top: 30px;
 }
-/* line 171, ../scss/_modules/_board.scss */
+/* line 206, ../scss/_modules/_board.scss */
 div.board ul.bottom li.bottom_left div.content {
   -webkit-transform: rotate(45deg);
   -moz-transform: rotate(45deg);
@@ -807,7 +844,7 @@ div.board ul.bottom li.bottom_left div.content {
   transform: rotate(45deg);
   margin-top: 22px;
 }
-/* line 178, ../scss/_modules/_board.scss */
+/* line 213, ../scss/_modules/_board.scss */
 div.board ul.bottom li.bottom_right div.content {
   -webkit-transform: rotate(-45deg);
   -moz-transform: rotate(-45deg);
@@ -816,13 +853,13 @@ div.board ul.bottom li.bottom_right div.content {
   transform: rotate(-45deg);
   margin-top: 30px;
 }
-/* line 187, ../scss/_modules/_board.scss */
+/* line 222, ../scss/_modules/_board.scss */
 div.board ul.left, div.board ul.right {
   position: absolute;
   left: 0;
   margin-top: 72px;
 }
-/* line 192, ../scss/_modules/_board.scss */
+/* line 227, ../scss/_modules/_board.scss */
 div.board ul.left li, div.board ul.right li {
   float: none;
   width: 70px;
@@ -834,12 +871,12 @@ div.board ul.left li, div.board ul.right li {
   height: 70px;
   width: 70px;
 }
-/* line 201, ../scss/_modules/_board.scss */
+/* line 236, ../scss/_modules/_board.scss */
 div.board ul.right {
   left: auto;
   right: 0;
 }
-/* line 205, ../scss/_modules/_board.scss */
+/* line 240, ../scss/_modules/_board.scss */
 div.board ul.right li {
   -webkit-transform: rotate(270deg);
   -moz-transform: rotate(270deg);
@@ -847,7 +884,7 @@ div.board ul.right li {
   -o-transform: rotate(270deg);
   transform: rotate(270deg);
 }
-/* line 212, ../scss/_modules/_board.scss */
+/* line 247, ../scss/_modules/_board.scss */
 div.board div.community_chest,
 div.board div.chance {
   width: 200px;
@@ -857,13 +894,13 @@ div.board div.chance {
   text-align: center;
   box-shadow: 3px 3px 10px #888;
 }
-/* line 220, ../scss/_modules/_board.scss */
+/* line 255, ../scss/_modules/_board.scss */
 div.board div.community_chest h1,
 div.board div.chance h1 {
   margin-top: -20px;
   font-size: 70%;
 }
-/* line 226, ../scss/_modules/_board.scss */
+/* line 261, ../scss/_modules/_board.scss */
 div.board div.chance {
   -webkit-transform: rotate(-45deg);
   -moz-transform: rotate(-45deg);
@@ -874,7 +911,7 @@ div.board div.chance {
   bottom: 160px;
   background-color: #fd9b78;
 }
-/* line 233, ../scss/_modules/_board.scss */
+/* line 268, ../scss/_modules/_board.scss */
 div.board div.community_chest {
   -webkit-transform: rotate(-225deg);
   -moz-transform: rotate(-225deg);

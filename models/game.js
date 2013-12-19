@@ -42,7 +42,10 @@ var GameSchema = new Schema({
  	}],
  	moves: [{
  		
- 	}]
+ 	}],
+ 	currentPlayer: {
+ 		type: Number
+ 	}
 }, {
 	collection: 'games'
 });
@@ -65,7 +68,8 @@ GameSchema.statics = {
 			        name: req.body.name,
 			        created_date: moment().format('D/M/YY HH:mm'),
 			        created_date_microtime: (new Date).getTime(),
-			        tiles: Tiles
+			        tiles: Tiles,
+			        currentPlayer: 0
 			    };
 
 		        self.create(obj, function(err, Game) {
@@ -108,7 +112,7 @@ GameSchema.methods = {
 
 			var newPlayer = {
 				userId: User._id.toString(),
-				position: 0,
+				position: 1,
 				money: 1500
 			};
 

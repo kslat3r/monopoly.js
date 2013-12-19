@@ -5,33 +5,46 @@ div.board(ng-controller="board")
 		h1 Community Chest
 	ul.bottom
 		each Tile, key in BottomTiles
-			li(class="#{key == 0 ? 'bottom_left ' + Tile.get('type') : key == (BottomTiles.length - 1) ? 'bottom_right ' + Tile.get('type') : Tile.get('type')}", id="#{Tile.get('machine_name')}")
-				span.colour(class="#{Tile.get('colour') != null ? Tile.get('colour') : Tile.get('type')} property-holder")
+			li(class="#{key == 0 ? 'bottom_left ' + Tile.type : key == (BottomTiles.length - 1) ? 'bottom_right ' + Tile.type : Tile.type}", id="#{Tile.machine_name}")
+				span.colour(class="#{Tile.colour != null ? Tile.colour : Tile.type} property-holder")
 				div.content						
-					span.title #{Tile.get('name')}
-					if Tile.get('price') != 0
-						span.price £#{Tile.get('price')}
+					span.title #{Tile.name}
+					if Tile.price != 0
+						span.price £#{Tile.price}
+				ul.players
+					li(ng-repeat="player in Game.players", ng-show="player.position == #{Tile.position}")
+						img(src="{{player.avatarUrl}}", alt="{{player.friendlyName}}")
 	ul.left
 		each Tile, key in LeftTiles
-			li(class="#{Tile.get('type')}", id="#{Tile.get('machine_name')}", id="#{Tile.get('machine_name')}")
-				span.colour(class="#{Tile.get('colour') != null ? Tile.get('colour') : Tile.get('type')}", id="#{Tile.get('machine_name')} property-holder")
+			li(class="#{Tile.type}", id="#{Tile.machine_name}", id="#{Tile.machine_name}")
+				span.colour(class="#{Tile.colour != null ? Tile.colour : Tile.type}", id="#{Tile.machine_name} property-holder")
 				div.content						
-					span.title #{Tile.get('name')}
-					if Tile.get('price') != 0
-						span.price £#{Tile.get('price')}
+					span.title #{Tile.name}
+					if Tile.price != 0
+						span.price £#{Tile.price}
+				ul.players
+					li(ng-repeat="player in Game.players", ng-show="player.position == Tile.position")
+						img(src="{{player.avatarUrl}}", alt="{{player.friendlyName}}")
 	ul.top
 		each Tile, key in TopTiles
-			li(class="#{key == 0 ? 'top_left ' + Tile.get('type') : key == (TopTiles.length - 1) ? 'top_right ' + Tile.get('type') : Tile.get('type')}", id="#{Tile.get('machine_name')}")
-				span.colour(class="#{Tile.get('colour') != null ? Tile.get('colour') : Tile.get('type')} property-holder")
+			li(class="#{key == 0 ? 'top_left ' + Tile.type : key == (TopTiles.length - 1) ? 'top_right ' + Tile.type : Tile.type}", id="#{Tile.machine_name}")
+				span.colour(class="#{Tile.colour != null ? Tile.colour : Tile.type} property-holder")
 				div.content
-					span.title #{Tile.get('name')}
-					if Tile.get('price') != 0
-						span.price £#{Tile.get('price')}
+					span.title #{Tile.name}
+					if Tile.price != 0
+						span.price £#{Tile.price}
+				ul.players
+					li(ng-repeat="player in Game.players", ng-show="player.position == Tile.position")
+						img(src="{{player.avatarUrl}}", alt="{{player.friendlyName}}")
+
 	ul.right
 		each Tile, key in RightTiles
-			li(class="#{Tile.get('type')}", id="#{Tile.get('machine_name')}")
-				span.colour(class="#{Tile.get('colour') != null ? Tile.get('colour') : Tile.get('type')} property-holder")
+			li(class="#{Tile.type}", id="#{Tile.machine_name}")
+				span.colour(class="#{Tile.colour != null ? Tile.colour : Tile.type} property-holder")
 				div.content
-					span.title #{Tile.get('name')}
-					if Tile.get('price') != 0
-						span.price £#{Tile.get('price')}
+					span.title #{Tile.name}
+					if Tile.price != 0
+						span.price £#{Tile.price}
+				ul.players
+					li(ng-repeat="player in Game.players", ng-show="player.position == Tile.position")
+						img(src="{{player.avatarUrl}}", alt="{{player.friendlyName}}")

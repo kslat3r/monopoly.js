@@ -134,6 +134,41 @@ div.board {
 				padding-left: 3%;
 				padding-right: 3%;
 			}
+
+			ul.players {
+				li {
+					border: 0;
+					height: 24px;
+					width: 24px;
+					position: absolute;
+
+					img {
+						height: 24px;
+						width: 24px;
+						@include border-radius(12px);
+					}
+
+					&:first-child {
+						top: 13px;
+						left: 5px;
+					}
+
+					&:nth-child(2) {
+						top: 13px;
+						right: 5px;
+					}
+
+					&:nth-child(3) {
+						bottom: 5px;
+						left: 5px;
+					}
+
+					&:nth-child(4) {
+						bottom: 5px;
+						right: 5px;
+					}
+				}
+			}
 		}	
 
 		&.bottom,

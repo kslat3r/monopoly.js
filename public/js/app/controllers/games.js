@@ -1,13 +1,13 @@
 'use strict';
 
 MonopolyJs.controller('games', ['$scope', 'GamesService', function($scope, GamesService) {
-	function getGamesList() {
+	this.getGamesList = function() {
 		GamesService.list(function(games) {
 			$scope.games = games;
 		});
-	}
+	};
 
-	getGamesList();
+	this.getGamesList();
 
 	$scope.submit = function() {		
 		var data = {
@@ -15,9 +15,10 @@ MonopolyJs.controller('games', ['$scope', 'GamesService', function($scope, Games
 			num_players: $scope.num_players !== undefined ? $scope.num_players : '',
 		};
 
+		var self = this;
 		GamesService.post(data, function(data) {
 			if (data.errors === undefined) {
-				getGamesList();
+				self.getGamesList();
 
 				$scope.createGameForm.$setPristine();
 				$scope.errors = $scope.name = $scope.num_players = undefined;				
