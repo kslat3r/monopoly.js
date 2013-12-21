@@ -5,7 +5,7 @@ div.board(ng-controller="board")
 		h1 Community Chest
 	ul.bottom
 		each Tile, key in BottomTiles
-			li(class="#{key == 0 ? 'bottom_left ' + Tile.type : key == (BottomTiles.length - 1) ? 'bottom_right ' + Tile.type : Tile.type}", id="#{Tile.machine_name}")
+			li(class="#{key == 0 ? 'bottom_left ' + Tile.type : key == (BottomTiles.length - 1) ? 'bottom_right ' + Tile.type : Tile.type}", id="#{Tile.machineName}")
 				span.colour(class="#{Tile.colour != null ? Tile.colour : Tile.type} property-holder")
 				div.content						
 					span.title #{Tile.name}
@@ -16,7 +16,7 @@ div.board(ng-controller="board")
 						img(src="{{player.avatarUrl}}", alt="{{player.friendlyName}}")
 	ul.left
 		each Tile, key in LeftTiles
-			li(class="#{Tile.type}", id="#{Tile.machine_name}", id="#{Tile.machine_name}")
+			li(class="#{Tile.type}", id="#{Tile.machineName}", id="#{Tile.machineName}")
 				span.colour(class="#{Tile.colour != null ? Tile.colour : Tile.type}", id="#{Tile.machine_name} property-holder")
 				div.content						
 					span.title #{Tile.name}
@@ -27,7 +27,7 @@ div.board(ng-controller="board")
 						img(src="{{player.avatarUrl}}", alt="{{player.friendlyName}}")
 	ul.top
 		each Tile, key in TopTiles
-			li(class="#{key == 0 ? 'top_left ' + Tile.type : key == (TopTiles.length - 1) ? 'top_right ' + Tile.type : Tile.type}", id="#{Tile.machine_name}")
+			li(class="#{key == 0 ? 'top_left ' + Tile.type : key == (TopTiles.length - 1) ? 'top_right ' + Tile.type : Tile.type}", id="#{Tile.machineName}")
 				span.colour(class="#{Tile.colour != null ? Tile.colour : Tile.type} property-holder")
 				div.content
 					span.title #{Tile.name}
@@ -39,7 +39,7 @@ div.board(ng-controller="board")
 
 	ul.right
 		each Tile, key in RightTiles
-			li(class="#{Tile.type}", id="#{Tile.machine_name}")
+			li(class="#{Tile.type}", id="#{Tile.machineName}")
 				span.colour(class="#{Tile.colour != null ? Tile.colour : Tile.type} property-holder")
 				div.content
 					span.title #{Tile.name}

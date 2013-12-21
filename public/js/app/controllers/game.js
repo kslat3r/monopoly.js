@@ -1,6 +1,8 @@
-MonopolyJs.controller('game', ['$scope', '$rootScope', '$stateParams', 'GamesService', 'UsersService', function($scope, $rootScope, $stateParams, GamesService, UsersService) {
+MonopolyJs.controller('game', ['$scope', '$rootScope', '$stateParams', 'GamesService', 'UsersService', 'DiceService', function($scope, $rootScope, $stateParams, GamesService, UsersService, DiceService) {
 	this.interval 		= null;
 	this.refreshTimeout = 5000;
+
+	var self = this;
 
 	this.getGame = function(id) {
 		var self = this;
@@ -58,6 +60,12 @@ MonopolyJs.controller('game', ['$scope', '$rootScope', '$stateParams', 'GamesSer
 		}
 
 		return null;
+	};
+
+	$scope.rollDice = function() {	
+		DiceService.get($scope.Game, function(roll) {			
+			self.getGame($stateParams.id);
+		});
 	};
 
 	//init

@@ -20,7 +20,7 @@ var TileSchema = new Schema({
  	type: {
  		type: String
  	},
- 	machine_name: {
+ 	machineName: {
  		type: String
  	}
 }, {

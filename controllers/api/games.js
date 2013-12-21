@@ -48,7 +48,7 @@ exports.post = function(req, res, callback) {
             //check post for errors
 
         	req.assert('name', 'Name is required').notEmpty();
-            req.assert('num_players', 'Number of players is required').notEmpty();
+            req.assert('numPlayers', 'Number of players is required').notEmpty();
             
             var errors 	= req.validationErrors();
             errors 		= testForSession(req, errors);
@@ -120,7 +120,7 @@ exports.get = function(req, res, callback) {
 
             //does this player need adding to the game?
 
-            if (Game.num_players !== Game.players.length) {
+            if (Game.numPlayers !== Game.players.length) {
                 Game.addOnlyNewPlayer(req.user, function(err, Game) {
                     if (err) {
                         callback(err, null);
@@ -138,7 +138,7 @@ exports.get = function(req, res, callback) {
 
             //has the game now started?
 
-            if (Game.num_players === Game.players.length && Game.started == false) {
+            if (Game.numPlayers === Game.players.length && Game.started == false) {
                 Game.started = true;
 
                 Game.save(function(err) {

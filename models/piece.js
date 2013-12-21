@@ -8,7 +8,7 @@ var PieceSchema = new Schema({
  	image: {
  		type: String
  	},
- 	machine_name: {
+ 	machineName: {
  		type: String
  	},
 }, {

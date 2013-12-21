@@ -10,7 +10,7 @@ var GameSchema = new Schema({
   		type: Boolean,
   		default: false
  	},
- 	num_players: {
+ 	numPlayers: {
  		type: Number
  	},
  	players: [{
@@ -31,10 +31,10 @@ var GameSchema = new Schema({
  		type: Schema.Types.ObjectId, 
  		ref : 'User'
  	}],
- 	created_date: { 
+ 	createdDate: { 
  		type: String
  	},
- 	created_date_microtime: {
+ 	createdDateMicrotime: {
  		type: Number
  	},
  	tiles: [{
@@ -62,12 +62,12 @@ GameSchema.statics = {
 			}
 			else {
 				var obj = {
-					num_players: req.body.num_players,
+					numPlayers: req.body.numPlayers,
 			        _players: [],
 			        started: false,
 			        name: req.body.name,
-			        created_date: moment().format('D/M/YY HH:mm'),
-			        created_date_microtime: (new Date).getTime(),
+			        createdDate: moment().format('D/M/YY HH:mm'),
+			        createdDateMicrotime: (new Date).getTime(),
 			        tiles: Tiles,
 			        currentPlayer: 0
 			    };

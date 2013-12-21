@@ -1,5 +1,12 @@
-div(ng-controller="game")
-	div.your_go(ng-show="isItMyTurn()")
+div(ng-controller="game", ng-show="Game.started == true")
+	div(ng-show="isItMyTurn()")
 		h2 It's your turn!
-	div.opponents_go(ng-show="isItMyTurn() === false")
-		h2 It's {{getCurrentPlayerFriendlyName()}}'s turn
+		form(name="rollDiceForm", ng-submit="rollDice()")
+			div.errors(ng-show="errors.length")
+				ul
+					li(ng-repeat="error in errors") {{error.msg}}
+			div.submit
+				button.btn(type='rollDice') Roll dice
+
+	div(ng-show="!isItMyTurn()")
+		h2 It's {{getCurrentPlayerFriendlyName()}}'s turn)

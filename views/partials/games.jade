@@ -5,7 +5,7 @@ div(class="games", ng-controller="games")
 			li(ng-repeat="game in games")
 				span
 					a(href="/#/game/{{game._id}}") {{game.name}}
-					&nbsp;&dash; {{game.created_date}}
+					&nbsp;&dash; {{game.createdDate}}
 			li(ng-show="games.length === 0")
 				em No active games
 			li(ng-show="games === undefined")
@@ -20,8 +20,8 @@ div(class="games", ng-controller="games")
 				label(for='name') Name
 				input#name(ng-model="name")
 			div.field
-				label(for='num_players') Number of players
-				select#num_players(ng-model="num_players")
+				label(for='numPlayers') Number of players
+				select#numPlayers(ng-model="numPlayers")
 					option(value="") --Select--
 					option(value="2") 2
 					option(value="3") 3
