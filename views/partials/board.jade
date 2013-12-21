@@ -23,7 +23,7 @@ div.board(ng-controller="board")
 					if Tile.price != 0
 						span.price £#{Tile.price}
 				ul.players
-					li(ng-repeat="player in Game.players", ng-show="player.position == Tile.position")
+					li(ng-repeat="player in Game.players", ng-show="player.position == #{Tile.position}")
 						img(src="{{player.avatarUrl}}", alt="{{player.friendlyName}}")
 	ul.top
 		each Tile, key in TopTiles
@@ -34,7 +34,7 @@ div.board(ng-controller="board")
 					if Tile.price != 0
 						span.price £#{Tile.price}
 				ul.players
-					li(ng-repeat="player in Game.players", ng-show="player.position == Tile.position")
+					li(ng-repeat="player in Game.players", ng-show="player.position == #{Tile.position}")
 						img(src="{{player.avatarUrl}}", alt="{{player.friendlyName}}")
 
 	ul.right
@@ -46,5 +46,5 @@ div.board(ng-controller="board")
 					if Tile.price != 0
 						span.price £#{Tile.price}
 				ul.players
-					li(ng-repeat="player in Game.players", ng-show="player.position == Tile.position")
+					li(ng-repeat="player in Game.players", ng-show="player.position == #{Tile.position}")
 						img(src="{{player.avatarUrl}}", alt="{{player.friendlyName}}")

@@ -65,6 +65,7 @@ MonopolyJs.controller('game', ['$scope', '$rootScope', '$stateParams', 'GamesSer
 	$scope.rollDice = function() {	
 		DiceService.get($scope.Game, function(roll) {			
 			self.getGame($stateParams.id);
+			self.autoRefresh();
 		});
 	};
 

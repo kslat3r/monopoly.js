@@ -154,6 +154,43 @@ GameSchema.methods = {
 		else {
 			callback(null, this);
 		}
+	},
+
+	rollDice: function(User, roll, callback) {
+
+		//add move to history
+
+		var move 	= roll;
+		move.player = User;
+		this.moves.push(move);
+
+		//move player to new position
+
+		var newPosition = this.players[this.currentPlayer].position + roll[0] + roll[1];
+		newPosition 	= newPosition > this.tiles.length ? newPosition - this.tiles.length : newPosition;
+		this.players[this.currentPlayer].position = newPosition;
+
+		//save
+
+		var self = this;
+		this.save(function(err) {
+			callback(err, self);
+		});
+	},
+
+	endTurn: function(callback) {
+
+		//rotate to next player
+
+		this.currentPlayer++;
+		this.currentPlayer = this.currentPlayer > (this.numPlayers - 1) ? 0 : this.currentPlayer;
+
+		//save
+
+		var self = this;
+		this.save(function(err) {
+			callback(err, self);
+		});
 	}
 };
 
