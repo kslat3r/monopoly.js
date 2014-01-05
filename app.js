@@ -1,15 +1,15 @@
 //library includes
 
-var mongoose 		= require('mongoose');
-var fs				= require('fs');
-var express 		= require('express');
-var http 			= require('http');
-var path 			= require('path');
-var MongoStore 		= require('connect-mongo')(express);
-var passport		= require('passport');
-var domain			= require('domain');
-var validator		= require('express-validator');
-var socketio 		= require('./lib/socketio.js');
+var mongoose 			= require('mongoose');
+var fs					= require('fs');
+var express 			= require('express');
+var http 				= require('http');
+var path 				= require('path');
+var MongoStore 			= require('connect-mongo')(express);
+var passport			= require('passport');
+var domain				= require('domain');
+var validator			= require('express-validator');
+var socketio 			= require('./lib/socketio.js');
 
 //model includes
 
@@ -29,6 +29,19 @@ var config 	= require('./config.js');
 
 var app = express();
 
+//session options
+
+var sessionConfig = {
+	cookieParser: express.cookieParser,
+	secret: 'm0n0p0lyj5',
+	cookie: {
+		expires: new Date(Date.now() + (1000 * 60 * 60 * 24 * 365))
+	},
+	store: new MongoStore({
+  		url: config.db.uri
+	})
+};
+
 //configure app
 
 app.configure(function() {
@@ -47,15 +60,7 @@ app.configure(function() {
 	//sessions
 
 	app.use(express.cookieParser());
-	app.use(express.session({
-		secret: 'm0n0p0lyj5',
-		cookie: {
-			expires: new Date(Date.now() + (1000 * 60 * 60 * 24 * 365))
-		},
-		store: new MongoStore({
-      		url: config.db.uri
-    	})
-	}));
+	app.use(express.session(sessionConfig));
 
 	//auth
 

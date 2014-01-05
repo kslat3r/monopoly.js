@@ -6,8 +6,8 @@ MonopolyJs.service('GamesService', ['SocketioService', '$http', function($socket
 			});
 		},
 
-		get: function(id, callback) {
-			$socket.emit('game:get', {id: id}, function(data) {
+		get: function(gameId, userId, callback) {
+			$socket.emit('game:get', {gameId: gameId, userId: userId}, function(data) {
       			callback(data);
     		});
 

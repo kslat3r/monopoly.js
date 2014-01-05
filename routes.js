@@ -14,7 +14,9 @@ exports.create = function(app) {
 	//bind
 
 	socketio.instance().sockets.on('connection', function(socket) {
-	  	socket.on('game:get', gamesApi.get);
+	  	socket.on('game:get', function(data, outputFn) {
+            gamesApi.get(data, socket, outputFn);
+        });
 	});
 
     //auth

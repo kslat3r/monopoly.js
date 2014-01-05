@@ -1,6 +1,7 @@
 var async       = require('async');
 var mongoose 	= require('mongoose');
 var Game 		= mongoose.model('Game');
+var User        = mongoose.model('User');
 
 var testForSession = function(req, errors) {
 	errors = errors || [];
@@ -91,37 +92,53 @@ exports.post = function(req, res, callback) {
     });
 };
 
-exports.get = function(data, outputFn) {
+exports.get = function(data, client, outputFn) {
     async.waterfall([
         function(callback) {
 
-            //attempt to find game if user logged in
+            //attempt to find user from id
 
-            //if (req.user) {
-                Game.findOne({_id: data.id}).exec(function(err, Game) {
+            if (data.userId) {
+                User.findOne({_id: data.userId}).exec(function(err, User) {
                     if (err) {
                         callback(err, null);
                     }
                     else {
-                        if (Game === null) {
-                            callback({});
-                        }
-                        else {
-                            callback(null, Game);
-                        }
+                        callback(null, User);
                     }
                 });
-            //}
-            //else {
-                //outputFn({});
-            //}
+            }
+            else {
+                callback([{
+                    param: 'userId',
+                    msg: 'userId is a required parameter'
+                }], null);
+            }
         },
-        function(Game, callback) {
+        function(User, callback) {
+
+            //attempt to find game if user logged in
+
+            Game.findOne({_id: data.gameId}).exec(function(err, Game) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    if (Game === null) {
+                        callback({});
+                    }
+                    else {
+                        callback(null, Game, User);
+                    }
+                }
+            });
+        },
+        function(Game, User, callback) {
 
             //does this player need adding to the game?
 
             if (Game.numPlayers !== Game.players.length) {
-                Game.addOnlyNewPlayer(req.user, function(err, Game) {
+                Game.addOnlyNewPlayer(User, function(err, Game) {
                     if (err) {
                         callback(err, null);
                     }
@@ -153,7 +170,16 @@ exports.get = function(data, outputFn) {
             else {
                 callback(null, Game);
             }
-        }
+        },
+        function(Game, callback) {
+
+            //add the current socket and update all connected sockets
+
+            Game.addClient(client);
+            Game.updateClients();
+
+            callback(null, Game);
+        }        
     ], 
     function(err, Game) {
         if (err) {

@@ -4,10 +4,10 @@ MonopolyJs.controller('game', ['$scope', '$rootScope', '$stateParams', 'Socketio
 
 	var self = this;
 
-	this.getGame = function(id) {
+	this.getGame = function(gameId, userId) {
 		var self = this;
 
-		GamesService.get(id, function(Game) {
+		GamesService.get(gameId, userId, function(Game) {
 			$scope.$apply(function () {
             	$scope.Game = Game;
         	});
@@ -22,10 +22,12 @@ MonopolyJs.controller('game', ['$scope', '$rootScope', '$stateParams', 'Socketio
 		});			
 	};
 
-	this.getUser = function() {
+	this.getUser = function(callback) {
 		UsersService.get('me', function(User) {
 			$scope.User = User;
 			$rootScope.$emit('userLoaded', $scope.User);
+
+			callback();
 		});
 	};
 
@@ -56,6 +58,8 @@ MonopolyJs.controller('game', ['$scope', '$rootScope', '$stateParams', 'Socketio
 
 	//init
 
-	this.getUser();
-	this.getGame($stateParams.id);
+	var self = this;
+	this.getUser(function() {
+		self.getGame($stateParams.id, $scope.User._id);	
+	});
 }]);

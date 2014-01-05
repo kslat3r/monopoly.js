@@ -1,6 +1,7 @@
 var mongoose 	= require('mongoose');
 var moment 		= require('moment');
 var Schema 		= mongoose.Schema;
+var socketio 	= require('../lib/socketio.js');
 
 var GameSchema = new Schema({
 	name: {
@@ -197,6 +198,18 @@ GameSchema.methods = {
 		this.save(function(err) {
 			callback(err, self);
 		});
+	},
+
+	addClient: function(client) {
+		client.join(this._id);
+	},
+
+	updateClients: function() {
+		socketio.instance().sockets.in(this._id).emit('game:update', this);
+	},
+
+	removeClient: function(socket) {
+		client.leave(this._id);
 	}
 };
 
