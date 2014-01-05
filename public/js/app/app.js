@@ -2,6 +2,8 @@
 
 var MonopolyJs = angular.module('MonopolyJs', ['ui.router']);
 
+var socket = io.connect('http://localhost');
+
 MonopolyJs.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 	$stateProvider
 	.state('index', {

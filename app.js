@@ -9,6 +9,7 @@ var MongoStore 		= require('connect-mongo')(express);
 var passport		= require('passport');
 var domain			= require('domain');
 var validator		= require('express-validator');
+var socketio 		= require('./lib/socketio.js');
 
 //model includes
 
@@ -91,12 +92,16 @@ app.configure(function() {
 
 mongoose.connect(config.db.uri);
 
-//create routes
+//create servers
 
-routes.create(app);
+var server = http.createServer(app).listen(app.get('port'), function() {
+  	console.log('Express server listening on port ' + app.get('port'));
 
-//create server
+  	//create socket io
 
-http.createServer(app).listen(app.get('port'), function() {
-  console.log('Express server listening on port ' + app.get('port'));
+	socketio.create(server);
+
+	//create routes
+
+	routes.create(app);	
 });

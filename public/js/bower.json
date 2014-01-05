@@ -6,6 +6,7 @@
     "angular": "*",
     "modernizr": "*",
     "angular-ui-router": "*",
-    "angular-animate": "*"
+    "angular-animate": "*",
+    "socket.io-client": "*"
   }
 }

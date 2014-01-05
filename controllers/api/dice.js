@@ -1,8 +1,9 @@
 var async       = require('async');
 var mongoose 	= require('mongoose');
 var Game 		= mongoose.model('Game');
+var socketio 	= require('../../lib/socketio.js');
 
-exports.roll = function(req, res, callback) {
+exports.get = function(req, res, callback) {
 	var errors = [];
 
 	if (req.user) {
@@ -45,7 +46,8 @@ exports.roll = function(req, res, callback) {
                             				callback(err, null);
                             			}
                             			else {
-                            				res.send(roll);		
+                            				socketio.instance().sockets.emit('game:update', Game);
+                            				res.send(roll);
                             			}
                             		});                            		
                             	}

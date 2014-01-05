@@ -5,7 +5,9 @@ MonopolyJs.controller('info', ['$scope', '$rootScope', '$stateParams', function(
 
 		if ($scope.Game === undefined) {
 			$rootScope.$on('gameLoaded', function(e, Game) {			
-				$scope.Game = Game;
+				$scope.$apply(function () {
+            		$scope.Game = Game;
+        		});
 			});
 		}
 	}

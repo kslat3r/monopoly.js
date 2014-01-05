@@ -91,30 +91,30 @@ exports.post = function(req, res, callback) {
     });
 };
 
-exports.get = function(req, res, callback) {
+exports.get = function(data, outputFn) {
     async.waterfall([
         function(callback) {
 
             //attempt to find game if user logged in
 
-            if (req.user) {
-                Game.findOne({_id: req.params.id}).exec(function(err, Game) {
+            //if (req.user) {
+                Game.findOne({_id: data.id}).exec(function(err, Game) {
                     if (err) {
                         callback(err, null);
                     }
                     else {
                         if (Game === null) {
-                            res.send({});
+                            callback({});
                         }
                         else {
                             callback(null, Game);
                         }
                     }
                 });
-            }
-            else {
-                res.send({});
-            }
+            //}
+            //else {
+                //outputFn({});
+            //}
         },
         function(Game, callback) {
 
@@ -157,10 +157,10 @@ exports.get = function(req, res, callback) {
     ], 
     function(err, Game) {
         if (err) {
-            callback(err, null);
+            outputFn(err);
         }
         else {
-            res.send(Game);
+            outputFn(Game);
         }
     });
 }

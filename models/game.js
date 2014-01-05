@@ -170,6 +170,12 @@ GameSchema.methods = {
 		newPosition 	= newPosition > this.tiles.length ? newPosition - this.tiles.length : newPosition;
 		this.players[this.currentPlayer].position = newPosition;
 
+		//has a double been rolled?
+
+		if (roll[0] == roll[1]) {
+			this.currentPlayer--; //hacky but will work
+		}
+
 		//save
 
 		var self = this;

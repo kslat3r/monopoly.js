@@ -6,7 +6,6 @@ div(ng-controller="game", ng-show="Game.started == true")
 				ul
 					li(ng-repeat="error in errors") {{error.msg}}
 			div.submit
-				button.btn(type='rollDice') Roll the dice
-
+				button.btn(type='rollDice') Roll the dice		
 	div(ng-show="!isItMyTurn()")
 		h2 It's {{getCurrentPlayerFriendlyName()}}'s turn

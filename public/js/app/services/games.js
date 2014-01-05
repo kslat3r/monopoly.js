@@ -1,4 +1,4 @@
-MonopolyJs.service('GamesService', function($http) {
+MonopolyJs.service('GamesService', ['SocketioService', '$http', function($socket, $http) {
 	return {
 		list: function(callback) {
 			return $http.get('/api/games').success(function(games) {				
@@ -7,8 +7,12 @@ MonopolyJs.service('GamesService', function($http) {
 		},
 
 		get: function(id, callback) {
-			return $http.get('/api/games/' + id).success(function(game) {
-				callback(game);
+			$socket.emit('game:get', {id: id}, function(data) {
+      			callback(data);
+    		});
+
+    		$socket.on('game:update', function(Game) {
+				callback(Game);
 			});
 		},
 
@@ -18,4 +22,4 @@ MonopolyJs.service('GamesService', function($http) {
 			});	
 		}
 	}
-});
+}]);

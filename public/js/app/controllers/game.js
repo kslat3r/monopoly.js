@@ -1,4 +1,4 @@
-MonopolyJs.controller('game', ['$scope', '$rootScope', '$stateParams', 'GamesService', 'UsersService', 'DiceService', function($scope, $rootScope, $stateParams, GamesService, UsersService, DiceService) {
+MonopolyJs.controller('game', ['$scope', '$rootScope', '$stateParams', 'SocketioService', 'GamesService', 'UsersService', 'DiceService', function($scope, $rootScope, $stateParams, $socket, GamesService, UsersService, DiceService) {
 	this.interval 		= null;
 	this.refreshTimeout = 5000;
 
@@ -8,19 +8,16 @@ MonopolyJs.controller('game', ['$scope', '$rootScope', '$stateParams', 'GamesSer
 		var self = this;
 
 		GamesService.get(id, function(Game) {
-			$scope.Game = Game;
+			$scope.$apply(function () {
+            	$scope.Game = Game;
+        	});
+        	
 			$rootScope.$emit('gameLoaded', $scope.Game);
 
 			//redirect if no game object
 
 			if ($scope.Game._id == undefined) {
 				window.location = '/#/';
-			}
-
-			//clear timeout if it's my turn
-
-			if ($scope.isItMyTurn()) {
-				self.clearAutoRefresh();
 			}
 		});			
 	};
@@ -31,18 +28,6 @@ MonopolyJs.controller('game', ['$scope', '$rootScope', '$stateParams', 'GamesSer
 			$rootScope.$emit('userLoaded', $scope.User);
 		});
 	};
-
-	this.autoRefresh = function() {
-		var self = this;
-
-		this.interval = setInterval(function() {
-			self.getGame($stateParams.id);
-		}, this.refreshTimeout);	
-	};
-
-	this.clearAutoRefresh = function() {
-		clearTimeout(this.interval);
-	}
 
 	$scope.isItMyTurn = function() {
 		if ($scope.Game !== undefined && $scope.User !== undefined) {
@@ -63,9 +48,9 @@ MonopolyJs.controller('game', ['$scope', '$rootScope', '$stateParams', 'GamesSer
 	};
 
 	$scope.rollDice = function() {	
-		DiceService.get($scope.Game, function(roll) {			
-			self.getGame($stateParams.id);
-			self.autoRefresh();
+		DiceService.get($scope.Game, function(roll) {
+			$scope.roll1 = roll[0];
+			$scope.roll2 = roll[1];
 		});
 	};
 
@@ -73,5 +58,4 @@ MonopolyJs.controller('game', ['$scope', '$rootScope', '$stateParams', 'GamesSer
 
 	this.getUser();
 	this.getGame($stateParams.id);
-	this.autoRefresh();
 }]);
