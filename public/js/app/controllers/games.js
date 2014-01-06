@@ -1,5 +1,3 @@
-'use strict';
-
 MonopolyJs.controller('games', ['$scope', 'GamesService', function($scope, GamesService) {
 	this.getGamesList = function() {
 		GamesService.list(function(games) {
@@ -16,7 +14,7 @@ MonopolyJs.controller('games', ['$scope', 'GamesService', function($scope, Games
 			numPlayers: $scope.numPlayers !== undefined ? $scope.numPlayers : '',
 		};
 
-		GamesService.post(data, function(data) {
+		GamesService.create(data, function(data) {
 			if (data.errors === undefined) {
 				self.getGamesList();
 

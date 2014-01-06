@@ -16,10 +16,22 @@ MonopolyJs.service('GamesService', ['SocketioService', '$http', function($socket
 			});
 		},
 
-		post: function(data, callback) {
+		create: function(data, callback) {
 			return $http.post('/api/games', data).success(function(game) {
 				callback(game);
 			});	
+		},
+
+		rollDice: function(data, callback) {
+			return $http.put('/api/games/' + data._id + '/rollDice', data).success(function(game) {
+				callback(game);
+			});
+		},
+
+		endTurn: function(data, callback) {
+			return $http.put('/api/games/' + data._id + '/endTurn', data).success(function(game) {
+				callback(game);
+			});
 		}
 	}
 }]);

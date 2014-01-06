@@ -32,7 +32,7 @@ exports.list = function(req, res, callback) {
     }
 };
 
-exports.post = function(req, res, callback) {
+exports.create = function(req, res, callback) {
     async.waterfall([
         function(callback) {
             var errors = testForSession(req);
@@ -189,12 +189,154 @@ exports.get = function(data, client, outputFn) {
             outputFn(Game);
         }
     });
-}
+};
 
-exports.put = function(req, res, callback) {
+exports.update = function(req, res, callback) {
 
 };
 
 exports.delete = function(req, res, callback) {
 
 };
+
+exports.rollDice = function(req, res, callback) {
+    var errors = [];
+
+    //is the user logged in
+
+    if (req.user) {
+
+        //create the roll
+
+        var roll = [
+            Math.floor((Math.random()*6)+1),
+            Math.floor((Math.random()*6)+1)
+        ];
+
+        if (req.params.id) {
+
+            //get game
+
+            Game.findOne({_id: req.params.id}).exec(function(err, Game) {
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+
+                    //has the game been found
+
+                    if (Game === null) {
+                        errors.push({
+                            param: 'id',
+                            msg: 'Game object not found'
+                        });
+
+                        res.send({errors: errors});
+                    }
+                    else {
+
+                        //check the users turn
+
+                        if (Game.players[Game.currentPlayer].userId != req.user._id) {
+                            errors.push({
+                                param: 'id',
+                                msg: 'Not this user\'s turn'
+                            });
+
+                            res.send({errors: errors});
+                        }
+                        else {
+
+                            //roll the dice
+
+                            Game.rollDice(req.user, roll, function(err, Game) {
+                                if (err) {
+                                    callback(err, null);
+                                }
+                                else {
+                                    res.send(roll);
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        }
+        else {
+            errors.push({
+                param: 'id',
+                msg: 'ID not specified'
+            });
+
+            res.send({errors: errors});
+        }
+    }
+    else {      
+        errors.push({
+            param: 'user',
+            msg: 'Valid user session is required'
+        });
+
+        res.send({errors: errors});
+    }
+};
+
+exports.endTurn = function(req, res, callback) {
+    var errors = [];
+
+    //is the user logged in
+
+    if (req.user) {
+
+        //find game
+
+        Game.findOne({_id: req.params.id}).exec(function(err, Game) {
+            if (err) {
+                callback(err, null);
+            }
+            else {
+
+                //has game been found
+
+                if (Game !== null) {
+
+                    //end the current turn
+
+                    Game.endTurn(function(err, Game) {
+                        if (err) {
+                            callback(err, null);
+                        }
+                        else {
+
+                            //move to the previous user if they have rolled a double
+
+                            Game.hasLastUserThrownADouble(function(err, Game) {
+                                if (err) {
+                                    callback(err, null);
+                                }
+                                else {
+                                    res.send(Game);
+                                    Game.updateClients();
+                                }
+                            });                        
+                        }
+                    });
+                }
+                else {
+                    callback([{
+                        param: 'id',
+                        msg: 'Game could not be found'
+                    }], null);
+                }
+            }
+        });
+    }
+    else {
+        errors.push({
+            param: 'user',
+            msg: 'Valid user session is required'
+        });
+
+        res.send({errors: errors});
+    }
+}

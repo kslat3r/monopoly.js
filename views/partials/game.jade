@@ -1,11 +1,20 @@
 div(ng-controller="game", ng-show="Game.started == true")
 	div(ng-show="isItMyTurn()")
 		h2 It's your turn!
-		form(name="rollDiceForm", ng-submit="rollDice()")
+		form(name="rollDiceForm", ng-submit="rollDice()", ng-show="roll1 === undefined && roll2 === undefined")
 			div.errors(ng-show="errors.length")
 				ul
 					li(ng-repeat="error in errors") {{error.msg}}
 			div.submit
-				button.btn(type='rollDice') Roll the dice		
+				button.btn(type='rollDice') Roll the dice
+		ul(ng-show="roll1 !== undefined && roll2 !== undefined")
+			li {{roll1}}
+			li {{roll2}}
+		form(name="endTurnForm", ng-submit="endTurn()", ng-hide="roll1 === undefined && roll2 === undefined")
+			div.errors(ng-show="errors.length")
+				ul
+					li(ng-repeat="error in errors") {{error.msg}}
+			div.submit
+				button.btn(type='endTurn') End turn
 	div(ng-show="!isItMyTurn()")
 		h2 It's {{getCurrentPlayerFriendlyName()}}'s turn

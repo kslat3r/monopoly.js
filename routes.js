@@ -5,13 +5,12 @@ var auth		= require('./controllers/auth.js');
 var index 		= require('./controllers/index.js');
 var partials	= require('./controllers/partials.js');
 
-var diceApi		= require('./controllers/api/dice.js');
 var gamesApi	= require('./controllers/api/games.js');
 var usersApi	= require('./controllers/api/users.js');
 
 exports.create = function(app) {
 
-	//bind
+	//sockets
 
 	socketio.instance().sockets.on('connection', function(socket) {
 	  	socket.on('game:get', function(data, outputFn) {
@@ -32,7 +31,6 @@ exports.create = function(app) {
 	//web
 
 	app.get('/', index.index);
-    app.get('/socketstest', index.socketstest);
 
 	//partials
 
@@ -45,13 +43,16 @@ exports.create = function(app) {
 
     //api
 
-    app.get('/api/dice', diceApi.get);
-    
     app.get('/api/games', gamesApi.list);
-    app.post('/api/games', gamesApi.post);
-    //app.get('/api/games/:id', gamesApi.get);
-    app.put('/api/games/:id', gamesApi.put);
+    app.get('/api/users/:id', usersApi.get);
+
+    app.post('/api/games', gamesApi.create);
+
+    app.put('/api/games/:id', gamesApi.update);
+    app.put('/api/games/:id/rollDice', gamesApi.rollDice);
+    app.put('/api/games/:id/endTurn', gamesApi.endTurn);    
+
     app.delete('/api/games/:id', gamesApi.delete);
 
-    app.get('/api/users/:id', usersApi.get);
+
 };

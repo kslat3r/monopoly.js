@@ -1,4 +1,4 @@
-MonopolyJs.controller('game', ['$scope', '$rootScope', '$stateParams', 'SocketioService', 'GamesService', 'UsersService', 'DiceService', function($scope, $rootScope, $stateParams, $socket, GamesService, UsersService, DiceService) {
+MonopolyJs.controller('game', ['$scope', '$rootScope', '$stateParams', 'SocketioService', 'GamesService', 'UsersService', function($scope, $rootScope, $stateParams, $socket, GamesService, UsersService) {
 	this.interval 		= null;
 	this.refreshTimeout = 5000;
 
@@ -50,11 +50,19 @@ MonopolyJs.controller('game', ['$scope', '$rootScope', '$stateParams', 'Socketio
 	};
 
 	$scope.rollDice = function() {	
-		DiceService.get($scope.Game, function(roll) {
+		GamesService.rollDice($scope.Game, function(roll) {
 			$scope.roll1 = roll[0];
 			$scope.roll2 = roll[1];
 		});
 	};
+
+	$scope.endTurn = function() {
+		GamesService.endTurn($scope.Game, function(Game) {
+			$scope.Game 	= Game;            	
+        	$scope.roll1 	= undefined;
+            $scope.roll2 	= undefined;
+		})
+	}
 
 	//init
 

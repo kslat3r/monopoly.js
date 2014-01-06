@@ -171,12 +171,6 @@ GameSchema.methods = {
 		newPosition 	= newPosition > this.tiles.length ? newPosition - this.tiles.length : newPosition;
 		this.players[this.currentPlayer].position = newPosition;
 
-		//has a double been rolled?
-
-		if (roll[0] == roll[1]) {
-			this.currentPlayer--; //hacky but will work
-		}
-
 		//save
 
 		var self = this;
@@ -187,7 +181,7 @@ GameSchema.methods = {
 
 	endTurn: function(callback) {
 
-		//rotate to next player
+		//move to next player
 
 		this.currentPlayer++;
 		this.currentPlayer = this.currentPlayer > (this.numPlayers - 1) ? 0 : this.currentPlayer;
@@ -198,6 +192,29 @@ GameSchema.methods = {
 		this.save(function(err) {
 			callback(err, self);
 		});
+	},
+
+	hasLastUserThrownADouble: function(callback) {
+
+		//check to see if the last role was a double
+
+		if (this.moves[this.moves.length-1][0] === this.moves[this.moves.length-1][1]) {
+
+			//move to previous player
+
+			this.currentPlayer--;
+			this.currentPlayer = this.currentPlayer < 0 ? this.players.length - 1 : this.currentPlayer;
+
+			//save
+
+			var self = this;
+			this.save(function(err) {
+				callback(err, self);
+			});
+		}
+		else {
+			callback(null, this);
+		}
 	},
 
 	addClient: function(client) {
