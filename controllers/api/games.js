@@ -206,12 +206,7 @@ exports.rollDice = function(req, res, callback) {
 
     if (req.user) {
 
-        //create the roll
-
-        var roll = [
-            Math.floor((Math.random()*6)+1),
-            Math.floor((Math.random()*6)+1)
-        ];
+        //has the user provided an id
 
         if (req.params.id) {
 
@@ -225,39 +220,40 @@ exports.rollDice = function(req, res, callback) {
 
                     //has the game been found
 
-                    if (Game === null) {
+                    if (Game !== null) {                        
+
+                        //can user roll dice?
+
+                        if (Game.canRollDice(req.user)) {
+
+                            //roll the dice
+
+                            Game.rollDice(req.user, function(err, Game) {
+                                if (err) {
+                                    callback(err, null);
+                                }
+                                else {
+                                    res.send(Game);
+                                    Game.updateClients();
+                                }
+                            });
+                        }
+                        else {
+                            errors.push({
+                                param: 'id',
+                                msg: 'User can\'t roll dice at this time'
+                            });
+
+                            res.send({errors: errors});
+                        }
+                    }
+                    else {
                         errors.push({
                             param: 'id',
                             msg: 'Game object not found'
                         });
 
-                        res.send({errors: errors});
-                    }
-                    else {
-
-                        //check the users turn
-
-                        if (Game.players[Game.currentPlayer].userId != req.user._id) {
-                            errors.push({
-                                param: 'id',
-                                msg: 'Not this user\'s turn'
-                            });
-
-                            res.send({errors: errors});
-                        }
-                        else {
-
-                            //roll the dice
-
-                            Game.rollDice(req.user, roll, function(err, Game) {
-                                if (err) {
-                                    callback(err, null);
-                                }
-                                else {
-                                    res.send(roll);
-                                }
-                            });
-                        }
+                        res.send({errors: errors});                        
                     }
                 }
             });
@@ -288,48 +284,53 @@ exports.endTurn = function(req, res, callback) {
 
     if (req.user) {
 
-        //find game
+        //has the user provided an id
 
-        Game.findOne({_id: req.params.id}).exec(function(err, Game) {
-            if (err) {
-                callback(err, null);
-            }
-            else {
+        if (req.params.id) {
 
-                //has game been found
+            //find game
 
-                if (Game !== null) {
-
-                    //end the current turn
-
-                    Game.endTurn(function(err, Game) {
-                        if (err) {
-                            callback(err, null);
-                        }
-                        else {
-
-                            //move to the previous user if they have rolled a double
-
-                            Game.hasLastUserThrownADouble(function(err, Game) {
-                                if (err) {
-                                    callback(err, null);
-                                }
-                                else {
-                                    res.send(Game);
-                                    Game.updateClients();
-                                }
-                            });                        
-                        }
-                    });
+            Game.findOne({_id: req.params.id}).exec(function(err, Game) {
+                if (err) {
+                    callback(err, null);
                 }
                 else {
-                    callback([{
-                        param: 'id',
-                        msg: 'Game could not be found'
-                    }], null);
+
+                    //has game not been found
+
+                    if (Game !== null) {
+
+                        //end the current turn
+
+                        Game.endTurn(function(err, Game) {
+                            if (err) {
+                                callback(err, null);
+                            }
+                            else {                           
+                                res.send(Game);
+                                Game.updateClients();
+                            }
+                        });                        
+                    }
+                    else {
+                        callback([{
+                            param: 'id',
+                            msg: 'Game could not be found'
+                        }], null);
+
+                        res.send({errors: errors});
+                    }
                 }
-            }
-        });
+            });
+        }
+        else {
+            errors.push({
+                param: 'id',
+                msg: 'ID not specified'
+            });
+
+            res.send({errors: errors});
+        }
     }
     else {
         errors.push({

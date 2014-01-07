@@ -50,7 +50,7 @@ exports.create = function(app) {
 
     app.put('/api/games/:id', gamesApi.update);
     app.put('/api/games/:id/rollDice', gamesApi.rollDice);
-    app.put('/api/games/:id/endTurn', gamesApi.endTurn);    
+    app.put('/api/games/:id/endTurn', gamesApi.endTurn);
 
     app.delete('/api/games/:id', gamesApi.delete);
 

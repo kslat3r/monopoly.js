@@ -19,7 +19,7 @@ MonopolyJs.controller('games', ['$scope', 'GamesService', function($scope, Games
 				self.getGamesList();
 
 				$scope.createGameForm.$setPristine();
-				$scope.errors = $scope.name = $scope.numPlayers = undefined;				
+				$scope.errors = $scope.name = $scope.numPlayers = undefined;
 			}
 			else {
 				$scope.errors = data.errors;

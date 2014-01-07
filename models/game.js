@@ -3,6 +3,11 @@ var moment 		= require('moment');
 var Schema 		= mongoose.Schema;
 var socketio 	= require('../lib/socketio.js');
 
+//constants
+
+var JAIL_POSITION 		= 11;
+var GO_TO_JAIL_POSITION = 31;
+
 var GameSchema = new Schema({
 	name: {
 		type: String
@@ -26,7 +31,8 @@ var GameSchema = new Schema({
  		}],
  		goojf: [{
 
- 		}]
+ 		}],
+ 		inJail: Boolean
  	}],
  	_playersRef: [{
  		type: Schema.Types.ObjectId, 
@@ -41,8 +47,11 @@ var GameSchema = new Schema({
  	tiles: [{
  		
  	}],
- 	moves: [{
- 		
+ 	turns: [{
+ 		roll1: Number,
+ 		roll2: Number,
+ 		player: Number,
+ 		complete: Boolean
  	}],
  	currentPlayer: {
  		type: Number
@@ -114,7 +123,8 @@ GameSchema.methods = {
 			var newPlayer = {
 				userId: User._id.toString(),
 				position: 1,
-				money: 1500
+				money: 1500,
+				inJail: false
 			};
 
 			//switch on provider
@@ -157,19 +167,67 @@ GameSchema.methods = {
 		}
 	},
 
-	rollDice: function(User, roll, callback) {
+	canRollDice: function(User) {
+
+		//has the last turn been completed
+
+		if (this.turns[this.turns.length-1].complete === true) {
+			return true;
+		}
+
+		return false;
+	},
+
+	rollDice: function(User, callback) {
+
+		//get last two turns
+
+		var lastTurn 		= this.turns[this.turns.length - 1];
+		var secondLastTurn	= this.turns[this.turns.length - 2];
+
+		//create move
+
+		var turn = {
+            roll1: Math.floor((Math.random()*6)+1),
+            roll2: Math.floor((Math.random()*6)+1),
+            player: this.currentPlayer,
+            complete: false
+        };
 
 		//add move to history
 
-		var move 	= roll;
-		move.player = User;
-		this.moves.push(move);
+		this.turns.push(turn);
 
-		//move player to new position
+		//is the player in jail?
 
-		var newPosition = this.players[this.currentPlayer].position + roll[0] + roll[1];
-		newPosition 	= newPosition > this.tiles.length ? newPosition - this.tiles.length : newPosition;
-		this.players[this.currentPlayer].position = newPosition;
+		if (this.players[this.currentPlayer].inJail === false) {
+
+			//move player to new position if the last three roles haven't been doubles
+
+			if (turn.roll1 === turn.roll2 && turn.player === this.currentPlayer && lastTurn.roll1 === lastTurn.roll2 && lastTurn.player === this.currentPlayer && secondLastTurn.roll1 === secondLastTurn.roll2 && secondLastTurn.player === this.currentPlayer) {
+				var newPosition 						= JAIL_POSITION;
+				this.players[this.currentPlayer].inJail = true;
+			}
+			else {
+				var newPosition = this.players[this.currentPlayer].position + turn.roll1 + turn.roll2;
+				newPosition 	= newPosition > this.tiles.length ? newPosition - this.tiles.length : newPosition;			
+			}
+
+			this.players[this.currentPlayer].position = newPosition;
+
+			//has the player landed on go to jail?
+
+			if (this.players[this.currentPlayer].position === GO_TO_JAIL_POSITION) {
+
+				//send to jail
+
+				this.players[this.currentPlayer].position 	= JAIL_POSITION;
+				this.players[this.currentPlayer].inJail		= true;
+			}
+		}
+		else {
+
+		}
 
 		//save
 
@@ -181,10 +239,16 @@ GameSchema.methods = {
 
 	endTurn: function(callback) {
 
-		//move to next player
+		//update last move
 
-		this.currentPlayer++;
-		this.currentPlayer = this.currentPlayer > (this.numPlayers - 1) ? 0 : this.currentPlayer;
+		this.turns[this.turns.length-1].complete = true;
+
+		//move to next player if roll was not a double or last player has been sent to jail
+
+		if (this.turns[this.turns.length-1].roll1 !== this.turns[this.turns.length-1].roll2 || this.players[this.currentPlayer].inJail === true) {
+			this.currentPlayer++;
+			this.currentPlayer = this.currentPlayer > (this.numPlayers - 1) ? 0 : this.currentPlayer;
+		}
 
 		//save
 
@@ -192,29 +256,6 @@ GameSchema.methods = {
 		this.save(function(err) {
 			callback(err, self);
 		});
-	},
-
-	hasLastUserThrownADouble: function(callback) {
-
-		//check to see if the last role was a double
-
-		if (this.moves[this.moves.length-1][0] === this.moves[this.moves.length-1][1]) {
-
-			//move to previous player
-
-			this.currentPlayer--;
-			this.currentPlayer = this.currentPlayer < 0 ? this.players.length - 1 : this.currentPlayer;
-
-			//save
-
-			var self = this;
-			this.save(function(err) {
-				callback(err, self);
-			});
-		}
-		else {
-			callback(null, this);
-		}
 	},
 
 	addClient: function(client) {
